@@ -46,7 +46,7 @@ use report_payments\reportbuilder\local\entities\payment;
  */
 class payment_global extends system_report {
 
-   /**
+    /**
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {

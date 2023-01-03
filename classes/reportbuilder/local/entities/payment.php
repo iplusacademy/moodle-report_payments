@@ -103,7 +103,7 @@ class payment extends base {
     protected function get_all_columns(): array {
         $tablealias = $this->get_table_alias('payments');
 
-       // Accountid column.
+        // Accountid column.
         $columns[] = (new column('accountid', new lang_string('name'), $this->get_entity_name()))
             ->add_joins($this->get_joins())
             ->add_join("LEFT JOIN {payment_accounts} pac ON {$tablealias}.accountid = pac.id")

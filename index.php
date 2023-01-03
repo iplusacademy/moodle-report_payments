@@ -42,8 +42,6 @@ $PAGE->set_heading($strheading);
 
 require_login();
 
-//admin_externalpage_setup('payments');
-
 $download = optional_param('download', false, PARAM_BOOL);
 $filter = optional_param('filter', null, PARAM_TEXT);
 
@@ -53,6 +51,7 @@ $report = system_report_factory::create(payment_global::class, \context_system::
 $event = \report_payments\event\report_viewed::create(['context' => $context]);
 $event->trigger();
 
+// TODO: implement download.
 if (!empty($filter)) {
     $report->set_filter_values(['payment:name_values' => $filter]);
 }
