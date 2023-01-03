@@ -17,7 +17,7 @@
 /**
  * The payment report viewed event.
  *
- * @package   report_payment
+ * @package   report_payments
  * @copyright 2023 Medical Access Uganda Limited
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,7 +27,7 @@ namespace report_payments\event;
 /**
  * The payment report viewed event.
  *
- * @package   report_payment
+ * @package   report_payments
  * @copyright 2023 Medical Access Uganda Limited
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
