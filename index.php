@@ -26,15 +26,27 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once("{$CFG->libdir}/adminlib.php");
 
-use report_payments\reportbuilder\local\systemreports\payment_global;
+use report_payments\reportbuilder\local\systemreports\payments_course;
+use report_payments\reportbuilder\local\systemreports\payments_global;
 use core_reportbuilder\system_report_factory;
 
-$courseid = optional_param('course', 1, PARAM_INT);
-$course = get_course($courseid);
-$context = context_course::instance($courseid);
+$courseid = optional_param('courseid', 1, PARAM_INT);
+$userid = optional_param('userid', 0, PARAM_INT);
+$download = optional_param('download', false, PARAM_BOOL);
+$filter = optional_param('filter', null, PARAM_TEXT);
 
-$PAGE->set_url(new \moodle_url('/report/payments/index.php'));
-$PAGE->set_context(context_system::instance());
+if ($courseid == 1) {
+    $context = \context_system::instance();
+    $params = ['courseid' => $courseid];
+    $classname = payments_global::class;
+} else {
+    $context = \context_course::instance($courseid);
+    $params = ['courseid' => $courseid];
+    $classname = payments_course::class;
+}
+
+$PAGE->set_url(new \moodle_url('/report/payments/index.php', $params));
+$PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 $strheading = get_string('payments');
 $PAGE->set_title($strheading);
@@ -42,12 +54,10 @@ $PAGE->set_heading($strheading);
 
 require_login();
 
-$download = optional_param('download', false, PARAM_BOOL);
-$filter = optional_param('filter', null, PARAM_TEXT);
-
 echo $OUTPUT->header();
-$report = system_report_factory::create(payment_global::class, \context_system::instance());
+$report = system_report_factory::create($classname, $context);
 // Trigger a report viewed event.
+
 $event = \report_payments\event\report_viewed::create(['context' => $context]);
 $event->trigger();
 

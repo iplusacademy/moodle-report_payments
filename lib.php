@@ -32,7 +32,7 @@
  */
 function report_payments_extend_navigation_course($navigation, $course, $context) {
     if (has_capability('report/payments:view', $context)) {
-        $url = new moodle_url('/report/payments/index.php', ['id' => $course->id]);
+        $url = new moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
         $txt = get_string('payments');
         $navigation->add($txt, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/report', ''));
     }
@@ -47,7 +47,7 @@ function report_payments_extend_navigation_course($navigation, $course, $context
  */
 function report_payments_extend_navigation_frontpage($navigation, $course, $context) {
     if (has_capability('report/payments:view', $context)) {
-        $url = new moodle_url('/report/payments/index.php', ['id' => $course->id]);
+        $url = new moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
         $txt = get_string('payments');
         $navigation->add($txt, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/report', ''));
     }
@@ -70,7 +70,7 @@ function report_payments_myprofile_navigation(\core_user\output\myprofile\tree $
     }
     $context = \context_user::instance($user->id);
     if ($iscurrentuser && has_capability('report/payments:userview', $context)) {
-        $url = new moodle_url('/report/payments/user.php', ['id' => $user->id, 'courseid' => $course->id]);
+        $url = new moodle_url('/report/payments/user.php', ['userid' => $user->id, 'courseid' => $course->id]);
         $txt = get_string('payments');
         $node = new \core_user\output\myprofile\node('reports', 'payments', $txt, null, $url);
         $tree->add_node($node);

@@ -25,10 +25,13 @@
 namespace report_payments\reportbuilder;
 
 use advanced_testcase;
+use context_course;
 use context_system;
-use moodle_url;
-use report_payments\reportbuilder\local\systemreports;
 use core_reportbuilder\system_report_factory;
+use enrol_fee\payment\service_provider;
+use moodle_url;
+use report_payments\reportbuilder\local\systemreports\payments_global;
+use report_payments\reportbuilder\local\systemreports\payments_course;
 
 /**
  * Class report payments global report tests
@@ -64,18 +67,31 @@ class global_report_test extends advanced_testcase {
         ];
         $id = $feeplugin->add_instance($course, $data);
         $paymentid = $pgen->create_payment(['accountid' => $accountid, 'amount' => 10, 'userid' => $userid]);
-        \enrol_fee\payment\service_provider::deliver_order('fee', $id, $paymentid, $userid);
+        service_provider::deliver_order('fee', $id, $paymentid, $userid);
     }
 
     /**
-     * Test the report.
+     * Test the global report.
      *
-     * @covers \report_payments\reportbuilder\local\systemreports\payment_global
+     * @covers \report_payments\reportbuilder\local\systemreports\payments_global
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
-    public function test_report() {
-        $report = system_report_factory::create(
-            \report_payments\reportbuilder\local\systemreports\payment_global::class, context_system::instance());
+    public function test_global() {
+        $report = system_report_factory::create(payments_global::class, context_system::instance());
+        $this->assertEquals($report->get_name(), 'Payments');
+    }
+
+    /**
+     * Test the course report.
+     *
+     * @covers \report_payments\reportbuilder\local\systemreports\payments_course
+     * @covers \report_payments\reportbuilder\local\entities\payment
+     */
+    public function test_course() {
+        global $DB;
+        $courses = $DB->get_records('course');
+        $course = reset($courses);
+        $report = system_report_factory::create(payments_course::class, context_course::instance($course->id));
         $this->assertEquals($report->get_name(), 'Payments');
     }
 

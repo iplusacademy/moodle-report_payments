@@ -15,11 +15,12 @@ Feature: View payment report
       | fullname | shortname |
       | Course 1 | C1        |
       | Course 2 | C2        |
+    And the following "role assigns" exist:
+      | user     | role    | contextlevel   | reference |
+      | manager1 | manager | System         |           |
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
-      | manager1 | C1     | manager        |
-      | manager1 | C2     | manager        |
     And the following "core_payment > payment accounts" exist:
       | name           | gateways |
       | Dollar account | paypal   |
@@ -60,17 +61,55 @@ Feature: View payment report
     And I log out
 
   @javascript
-  Scenario: Admins can see the payments report
-    And I log in as "admin"
-    And I am on the "Course 1" "enrolment methods" page
+  Scenario: Admins can see the global payments report
+    When I log in as "admin"
+    And I am on site homepage
     And I navigate to "Reports > Payments" in current page administration
     Then I should see "EUR"
     And I should see "USD"
     And I should see "200"
     And I click on "Filters" "button"
     And I set the following fields in the "Currency" "core_reportbuilder > Filter" to these values:
-      | Currency operator  | Contains |
-      | Currency value     | EUR      |
+      | Currency operator | Contains |
+      | Currency value    | EUR      |
+    And I click on "Apply" "button"
+    Then I should not see "USD"
+    And I click on "Reset all" "button"
+    Then I should see "USD"
+    And I click on "Filters" "button"
+    And I click on "Cost" "button"
+
+  @javascript
+  Scenario: Managers can see the global payments report
+    When I log in as "manager1"
+    And I am on site homepage
+    And I navigate to "Reports > Payments" in current page administration
+    Then I should see "EUR"
+    And I should see "USD"
+    And I should see "200"
+    And I click on "Filters" "button"
+    And I set the following fields in the "Cost" "core_reportbuilder > Filter" to these values:
+      | Cost operator | Contains |
+      | Cost value    | 200      |
+    And I click on "Apply" "button"
+    Then I should not see "100"
+    And I click on "Reset all" "button"
+    Then I should see "USD"
+    And I click on "Filters" "button"
+    And I click on "Cost" "button"
+
+  @javascript
+  Scenario: Managers can see the global payments report
+    When I log in as "manager1"
+    And I am on the "Course 2" course page
+    And I navigate to "Reports > Payments" in current page administration
+    Then I should see "EUR"
+    And I should see "USD"
+    And I should see "200"
+    And I click on "Filters" "button"
+    And I set the following fields in the "Currency" "core_reportbuilder > Filter" to these values:
+      | Currency operator | Contains |
+      | Currency value    | EUR      |
     And I click on "Apply" "button"
     Then I should not see "USD"
     And I click on "Reset all" "button"

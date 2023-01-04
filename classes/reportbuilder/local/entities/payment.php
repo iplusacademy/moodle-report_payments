@@ -37,6 +37,7 @@ use core_reportbuilder\local\entities\base;
 use core_reportbuilder\local\report\column;
 use core_reportbuilder\local\report\filter;
 use stdClass;
+use html_writer;
 use core_collator;
 
 /**
@@ -102,9 +103,10 @@ class payment extends base {
      */
     protected function get_all_columns(): array {
         $tablealias = $this->get_table_alias('payments');
+        $name = $this->get_entity_name();
 
         // Accountid column.
-        $columns[] = (new column('accountid', new lang_string('name'), $this->get_entity_name()))
+        $columns[] = (new column('accountid', new lang_string('name'), $name))
             ->add_joins($this->get_joins())
             ->add_join("LEFT JOIN {payment_accounts} pac ON {$tablealias}.accountid = pac.id")
             ->set_type(column::TYPE_TEXT)
@@ -112,35 +114,38 @@ class payment extends base {
             ->set_is_sortable(true);
 
         // Component column.
-        $columns[] = (new column('component', new lang_string('plugin'), $this->get_entity_name()))
+        $columns[] = (new column('component', new lang_string('plugin'), $name))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.component")
             ->set_is_sortable(true);
 
         // Gateway column.
-        $columns[] = (new column('gateway', new lang_string('type_paygw', 'plugin'), $this->get_entity_name()))
+        $columns[] = (new column('gateway', new lang_string('type_paygw', 'plugin'), $name))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.gateway")
             ->set_is_sortable(true);
 
         // Amount column.
-        $columns[] = (new column('amount', new lang_string('cost'), $this->get_entity_name()))
+        $columns[] = (new column('amount', new lang_string('cost'), $name))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.amount")
-            ->set_is_sortable(true);
+            ->set_is_sortable(true)
+            ->add_callback(function(string $value, stdClass $row) {
+                return html_writer::span($value, 'text-right');
+            });
 
         // Currency column.
-        $columns[] = (new column('currency', new lang_string('currency'), $this->get_entity_name()))
+        $columns[] = (new column('currency', new lang_string('currency'), $name))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.currency")
             ->set_is_sortable(true);
 
         // Date column.
-        $columns[] = (new column('timecreated', new lang_string('date'), $this->get_entity_name()))
+        $columns[] = (new column('timecreated', new lang_string('date'), $name))
             ->add_joins($this->get_joins())
             ->set_type(column::TYPE_TIMESTAMP)
             ->add_field("{$tablealias}.timecreated")
@@ -157,52 +162,28 @@ class payment extends base {
      */
     protected function get_all_filters(): array {
         $tablealias = $this->get_table_alias('payments');
+        $name = $this->get_entity_name();
 
         // Component filter.
-        $filters[] = (new filter(
-            text::class,
-            'component',
-            new lang_string('plugin'),
-            $this->get_entity_name(),
-            "{$tablealias}.component"
-        ))
+        $filters[] = (new filter(text::class, 'component', new lang_string('plugin'), $name, "{$tablealias}.component"))
             ->add_joins($this->get_joins());
 
         // Gateway filter.
-        $filters[] = (new filter(
-            text::class,
-            'gateway',
-            new lang_string('type_paygw', 'plugin'),
-            $this->get_entity_name(),
-            "{$tablealias}.gateway"
-        ))
+        $filters[] = (new filter(text::class, 'gateway', new lang_string('type_paygw', 'plugin'), $name, "{$tablealias}.gateway"))
             ->add_joins($this->get_joins());
 
         // Currency filter.
-        $filters[] = (new filter(
-            text::class,
-            'currency',
-            new lang_string('currency'),
-            $this->get_entity_name(),
-            "{$tablealias}.currency"
-        ))
+        $filters[] = (new filter(text::class, 'currency', new lang_string('currency'), $name, "{$tablealias}.currency"))
+            ->add_joins($this->get_joins());
+
+        // Amount filter.
+        $filters[] = (new filter(text::class, 'amount', new lang_string('cost'), $name, "{$tablealias}.amount"))
             ->add_joins($this->get_joins());
 
         // Date filter.
-        $filters[] = (new filter(
-            date::class,
-            'timecreated',
-            new lang_string('date'),
-            $this->get_entity_name(),
-            "{$tablealias}.timecreated"
-        ))
+        $filters[] = (new filter(date::class, 'timecreated', new lang_string('date'), $name, "{$tablealias}.timecreated"))
             ->add_joins($this->get_joins())
-            ->set_limited_operators([
-                date::DATE_ANY,
-                date::DATE_RANGE,
-                date::DATE_PREVIOUS,
-                date::DATE_CURRENT,
-            ]);
+            ->set_limited_operators([date::DATE_ANY, date::DATE_RANGE, date::DATE_PREVIOUS, date::DATE_CURRENT]);
 
         return $filters;
     }
