@@ -25,15 +25,18 @@
 
 namespace report_payments\reportbuilder\local\systemreports;
 
+use context_coursecat;
 use context_system;
+use core_course\reportbuilder\local\entities\enrolment;
+use core_course\reportbuilder\local\entities\course_category;
 use core_reportbuilder\local\entities\user;
 use core_reportbuilder\local\entities\course;
-use core_course\reportbuilder\local\entities\enrolment;
+use core_reportbuilder\local\helpers\database;
 use core_reportbuilder\local\report\action;
+use core_reportbuilder\system_report;
 use lang_string;
 use moodle_url;
 use pix_icon;
-use core_reportbuilder\system_report;
 use report_payments\reportbuilder\local\entities\payment;
 
 /**
@@ -50,12 +53,12 @@ class payments_global extends system_report {
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {
+        $context = $this->get_context();
+
         $main = new payment();
         $mainalias = $main->get_table_alias('payments');
-
         $this->set_main_table('payments', $mainalias);
         $this->add_entity($main);
-
         $this->add_base_fields("{$mainalias}.id");
 
         $user = new user();
@@ -67,7 +70,6 @@ class payments_global extends system_report {
         $enrol = new enrolment();
         $enrolalias = $enrol->get_table_alias('enrol');
         $userenrolalias = $enrol->get_table_alias('user_enrolments');
-
         $course = new course();
         $coursealias = $course->get_table_alias('course');
         $this->add_entity($course->add_join(
@@ -79,6 +81,10 @@ class payments_global extends system_report {
         $this->add_columns();
         $this->add_filters();
         $this->add_actions();
+        if ($context->contextlevel == CONTEXT_COURSECAT && $context->instanceid > 0) {
+            $param = database::generate_param_name();
+            $this->add_base_condition_sql("$coursealias.category = :$param", [$param => $context->instanceid]);
+        }
 
         $this->set_downloadable(true, get_string('download'));
     }
@@ -109,7 +115,7 @@ class payments_global extends system_report {
             'payment:accountid',
             'course:fullname',
             'payment:gateway',
-            'user:fullname',
+            'user:fullnamewithpicturelink',
             'payment:amount',
             'payment:currency',
             'payment:timecreated',

@@ -39,6 +39,22 @@ function report_payments_extend_navigation_course($navigation, $course, $context
 }
 
 /**
+ * Adds nodes to category navigation
+ *
+ * @param navigation_node $navigation The navigation node to extend
+ * @param context $context The context of the course
+ * @return void|null return null if we don't want to display the node.
+ */
+function report_payments_extend_navigation_category_settings($navigation, $context) {
+    if (has_capability('report/payments:overview', $context)) {
+        $url = new moodle_url('/report/payments/index.php', ['categoryid' => $context->instanceid]);
+        $txt = get_string('payments');
+        $navigation->add($txt, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/report', ''));
+    }
+}
+
+
+/**
  * This function extends the navigation with the report items
  *
  * @param navigation_node $navigation The navigation node to extend
@@ -46,7 +62,7 @@ function report_payments_extend_navigation_course($navigation, $course, $context
  * @param context         $context    The context of the course
  */
 function report_payments_extend_navigation_frontpage($navigation, $course, $context) {
-    if (has_capability('report/payments:view', $context)) {
+    if (has_capability('report/payments:overview', $context)) {
         $url = new moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
         $txt = get_string('payments');
         $navigation->add($txt, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/report', ''));

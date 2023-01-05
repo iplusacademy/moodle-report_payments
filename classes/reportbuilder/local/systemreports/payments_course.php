@@ -77,7 +77,9 @@ class payments_course extends system_report {
 
         $this->add_columns();
         $this->add_filters();
-        $this->add_base_condition_sql("$coursealias.id = :$param", [$param => $context->instanceid]);
+        if ($context->instanceid > 0) {
+            $this->add_base_condition_sql("$coursealias.id = :$param", [$param => $context->instanceid]);
+        }
         $this->set_downloadable(true, get_string('download'));
     }
 

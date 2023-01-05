@@ -50,12 +50,6 @@ use core_collator;
  */
 class payment extends base {
 
-    /** @var int Result success */
-    protected const SUCCESS = 0;
-
-    /** @var int Result failed */
-    protected const FAILED = 1;
-
     /**
      * Database tables that this entity uses and their default aliases
      *
@@ -133,9 +127,11 @@ class payment extends base {
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.amount")
             ->set_is_sortable(true)
-            ->add_callback(function(string $value, stdClass $row) {
-                return html_writer::span($value, 'text-right');
-            });
+            ->add_callback(
+                function(string $value, stdClass $row) {
+                    return html_writer::span($value, 'text-right');
+                }
+            );
 
         // Currency column.
         $columns[] = (new column('currency', new lang_string('currency'), $name))

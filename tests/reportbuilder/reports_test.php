@@ -26,12 +26,14 @@ namespace report_payments\reportbuilder;
 
 use advanced_testcase;
 use context_course;
+use context_coursecat;
 use context_system;
 use core_reportbuilder\system_report_factory;
 use enrol_fee\payment\service_provider;
 use moodle_url;
-use report_payments\reportbuilder\local\systemreports\payments_global;
 use report_payments\reportbuilder\local\systemreports\payments_course;
+use report_payments\reportbuilder\local\systemreports\payments_global;
+
 
 /**
  * Class report payments global report tests
@@ -41,7 +43,10 @@ use report_payments\reportbuilder\local\systemreports\payments_course;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class global_report_test extends advanced_testcase {
+class reports_test extends advanced_testcase {
+
+    /** @var stdClass Course. */
+    private $course;
 
     /**
      * Setup testcase.
@@ -52,7 +57,8 @@ class global_report_test extends advanced_testcase {
         $this->resetAfterTest();
         $gen = $this->getDataGenerator();
         $pgen = $gen->get_plugin_generator('core_payment');
-        $course = $gen->create_course();
+        $category = $gen->create_category();
+        $course = $gen->create_course(['categoryid' => $category->id]);
         $userid = $gen->create_user()->id;
         $roleid = $DB->get_record('role', ['shortname' => 'student'])->id;
         $feeplugin = enrol_get_plugin('fee');
@@ -68,6 +74,7 @@ class global_report_test extends advanced_testcase {
         $id = $feeplugin->add_instance($course, $data);
         $paymentid = $pgen->create_payment(['accountid' => $accountid, 'amount' => 10, 'userid' => $userid]);
         service_provider::deliver_order('fee', $id, $paymentid, $userid);
+        $this->course = $course;
     }
 
     /**
@@ -79,6 +86,8 @@ class global_report_test extends advanced_testcase {
     public function test_global() {
         $report = system_report_factory::create(payments_global::class, context_system::instance());
         $this->assertEquals($report->get_name(), 'Payments');
+        $report = system_report_factory::create(payments_global::class, context_coursecat::instance($this->course->category));
+        $this->assertEquals($report->get_name(), 'Payments');
     }
 
     /**
@@ -88,11 +97,7 @@ class global_report_test extends advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_course() {
-        global $DB;
-        $courses = $DB->get_records('course');
-        $course = reset($courses);
-        $report = system_report_factory::create(payments_course::class, context_course::instance($course->id));
+        $report = system_report_factory::create(payments_course::class, context_course::instance($this->course->id));
         $this->assertEquals($report->get_name(), 'Payments');
     }
-
 }

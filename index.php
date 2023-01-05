@@ -32,13 +32,24 @@ use core_reportbuilder\system_report_factory;
 
 $courseid = optional_param('courseid', 1, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
+$categoryid = optional_param('categoryid', 0, PARAM_INT);
 $download = optional_param('download', false, PARAM_BOOL);
 $filter = optional_param('filter', null, PARAM_TEXT);
 
 if ($courseid == 1) {
-    $context = \context_system::instance();
-    $params = ['courseid' => $courseid];
-    $classname = payments_global::class;
+    if ($categoryid != 0) {
+        $context = \context_coursecat::instance($categoryid);
+        $params = ['categoryid' => $categoryid];
+        $classname = payments_global::class;
+    } else if ($userid != 0) {
+        $context = \context_user::instance($userid);
+        $params = ['userid' => $userid];
+        $classname = payments_user::class;
+    } else {
+        $context = \context_system::instance();
+        $params = ['courseid' => $courseid];
+        $classname = payments_global::class;
+    }
 } else {
     $context = \context_course::instance($courseid);
     $params = ['courseid' => $courseid];
@@ -49,9 +60,23 @@ $PAGE->set_url(new \moodle_url('/report/payments/index.php', $params));
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 $strheading = get_string('payments');
-$PAGE->set_title($strheading);
-$PAGE->set_heading($strheading);
 
+$PAGE->set_title($strheading);
+switch ($context->contextlevel) {
+    case CONTEXT_USER:
+        $fullname = fullname($user, has_capability('moodle/site:viewfullnames', $context));
+        $PAGE->set_heading($fullname);
+        break;
+    case CONTEXT_COURSECAT:
+        core_course_category::page_setup();
+        break;
+    case CONTEXT_COURSE:
+        $course = get_course($courseid);
+        $PAGE->set_heading($course->fullname);
+        break;
+    default:
+        $PAGE->set_heading($strheading);
+}
 require_login();
 
 echo $OUTPUT->header();
