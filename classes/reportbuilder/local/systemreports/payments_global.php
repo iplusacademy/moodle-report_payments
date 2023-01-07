@@ -28,7 +28,6 @@ namespace report_payments\reportbuilder\local\systemreports;
 use context_coursecat;
 use context_system;
 use core_course\reportbuilder\local\entities\enrolment;
-use core_course\reportbuilder\local\entities\course_category;
 use core_reportbuilder\local\entities\user;
 use core_reportbuilder\local\entities\course;
 use core_reportbuilder\local\helpers\database;
@@ -53,6 +52,7 @@ class payments_global extends system_report {
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {
+        global $DB;
         $context = $this->get_context();
 
         $main = new payment();
@@ -63,30 +63,31 @@ class payments_global extends system_report {
 
         $user = new user();
         $useralias = $user->get_table_alias('user');
-        $this->add_entity($user->add_join(
-            "LEFT JOIN {user} {$useralias} ON {$useralias}.id = {$mainalias}.userid"
-        ));
+        $user->add_join("LEFT JOIN {user} {$useralias} ON {$useralias}.id = {$mainalias}.userid");
+        $this->add_entity($user);
 
         $enrol = new enrolment();
         $enrolalias = $enrol->get_table_alias('enrol');
         $userenrolalias = $enrol->get_table_alias('user_enrolments');
+        $enrol->add_join("LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid");
+        $enrol->add_join("LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$userenrolalias}.enrolid");
+        $this->add_entity($enrol);
+
         $course = new course();
         $coursealias = $course->get_table_alias('course');
-        $this->add_entity($course->add_join(
-            "LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid
-             LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$userenrolalias}.enrolid
-             LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid"
-        ));
+        $course->add_join("LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid");
+        $course->add_join("LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$userenrolalias}.enrolid");
+        $course->add_join("LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
+        $this->add_entity($course);
 
         $this->add_columns();
         $this->add_filters();
         $this->add_actions();
-        if ($context->contextlevel == CONTEXT_COURSECAT && $context->instanceid > 0) {
-            $param = database::generate_param_name();
-            $this->add_base_condition_sql("$coursealias.category = :$param", [$param => $context->instanceid]);
+        if ($context->contextlevel == CONTEXT_COURSECAT) {
+            $this->add_base_condition_simple("$coursealias.category", $context->instanceid);
         }
 
-        $this->set_downloadable(true, get_string('download'));
+        $this->set_downloadable(true, get_string('payments'));
     }
 
     /**
@@ -111,16 +112,15 @@ class payments_global extends system_report {
      * Adds the columns we want to display in the report
      */
     public function add_columns(): void {
-        $columns = [
+        $this->add_columns_from_entities([
             'payment:accountid',
             'course:fullname',
             'payment:gateway',
-            'user:fullnamewithpicturelink',
+            'user:fullname',
             'payment:amount',
             'payment:currency',
             'payment:timecreated',
-        ];
-        $this->add_columns_from_entities($columns);
+        ]);
         if ($column = $this->get_column('course:fullname')) {
             $column->set_title(new lang_string('course'));
         }
@@ -131,15 +131,14 @@ class payments_global extends system_report {
      * Adds the filters we want to display in the report
      */
     protected function add_filters(): void {
-        $filters = [
+        $this->add_filters_from_entities([
             'course:fullname',
             'user:fullname',
             'payment:gateway',
             'payment:amount',
             'payment:currency',
             'payment:timecreated',
-        ];
-        $this->add_filters_from_entities($filters);
+        ]);
     }
 
     /**

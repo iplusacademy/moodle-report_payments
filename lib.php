@@ -42,7 +42,7 @@ function report_payments_extend_navigation_course($navigation, $course, $context
  * Adds nodes to category navigation
  *
  * @param navigation_node $navigation The navigation node to extend
- * @param context $context The context of the course
+ * @param context $context The context of the coursecategory
  * @return void|null return null if we don't want to display the node.
  */
 function report_payments_extend_navigation_category_settings($navigation, $context) {

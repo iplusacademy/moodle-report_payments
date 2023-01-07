@@ -91,6 +91,14 @@ Feature: View payment report
     And I click on "Cost" "button"
 
   @javascript
+  Scenario: Managers can download the global payments report
+    When I log in as "manager1"
+    And I am on site homepage
+    And I navigate to "Reports > Payments" in current page administration
+    And I set the field "downloadtype_download" to "json"
+    Then following "Download" should download between "1" and "70000" bytes
+
+  @javascript
   Scenario: Managers can see the global payments report
     When I log in as "manager1"
     And I am on site homepage
@@ -107,7 +115,7 @@ Feature: View payment report
     And I click on "Reset all" "button"
     Then I should see "USD"
     And I click on "Filters" "button"
-    And I click on "Cost" "button"
+    And I click on "Course" "button"
 
   @javascript
   Scenario: Global managers can see the course payments report
@@ -148,7 +156,6 @@ Feature: View payment report
     Then I should see the "Course categories and courses" management page
     And I should see "scitech" in the "#category-listing ul" "css_element"
     And I should see "phil" in the "#category-listing ul" "css_element"
-    And I follow "Science and technology"
+    And I follow "Philosophy"
     And I follow "Payments"
-    # TODO: We should see some records here.
-    Then I should see "Nothing to display"
+    Then I should not see "Nothing to display"

@@ -29,6 +29,7 @@ require_once("{$CFG->libdir}/adminlib.php");
 use report_payments\reportbuilder\local\systemreports\payments_course;
 use report_payments\reportbuilder\local\systemreports\payments_global;
 use core_reportbuilder\system_report_factory;
+use core_reportbuilder\external\system_report_exporter;
 
 $courseid = optional_param('courseid', 1, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
@@ -78,18 +79,11 @@ switch ($context->contextlevel) {
         $PAGE->set_heading($strheading);
 }
 require_login();
-
-echo $OUTPUT->header();
+\report_payments\event\report_viewed::create(['context' => $context])->trigger();
 $report = system_report_factory::create($classname, $context);
-// Trigger a report viewed event.
-
-$event = \report_payments\event\report_viewed::create(['context' => $context]);
-$event->trigger();
-
-// TODO: implement download.
 if (!empty($filter)) {
     $report->set_filter_values(['payment:name_values' => $filter]);
 }
-
+echo $OUTPUT->header();
 echo $report->output();
 echo $OUTPUT->footer();

@@ -80,7 +80,7 @@ class payments_course extends system_report {
         if ($context->instanceid > 0) {
             $this->add_base_condition_sql("$coursealias.id = :$param", [$param => $context->instanceid]);
         }
-        $this->set_downloadable(true, get_string('download'));
+        $this->set_downloadable(true, get_string('payments'));
     }
 
     /**
