@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Settings file
  *
  * @package    report_payments
  * @copyright  2023 Medical Access Uganda
@@ -23,10 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2023010600;
-$plugin->requires  = 2022041200;
-$plugin->component = 'report_payments';
-$plugin->maturity  = MATURITY_BETA;
-$plugin->release   = 'v.1.0.1';
+$ADMIN->add('reports', new admin_externalpage(
+    'reportpayments',
+    get_string('payments'),
+    $CFG->wwwroot . '/report/payments/index.php',
+    'report/payments:overview'));
+$settings = null;

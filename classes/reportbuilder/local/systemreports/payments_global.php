@@ -52,7 +52,6 @@ class payments_global extends system_report {
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {
-        global $DB;
         $context = $this->get_context();
 
         $main = new payment();
@@ -82,7 +81,6 @@ class payments_global extends system_report {
 
         $this->add_columns();
         $this->add_filters();
-        $this->add_actions();
         if ($context->contextlevel == CONTEXT_COURSECAT) {
             $this->add_base_condition_simple("$coursealias.category", $context->instanceid);
         }
@@ -139,27 +137,5 @@ class payments_global extends system_report {
             'payment:currency',
             'payment:timecreated',
         ]);
-    }
-
-    /**
-     * Add the system report actions. An extra column will be appended to each row, containing all actions added here
-     */
-    protected function add_actions(): void {
-        // TODO: Which actions should be implemented?
-        $this->add_action((new action(
-            new moodle_url('/admin/tasklogs.php', ['logid' => ':id']),
-            new pix_icon('e/search', ''),
-            [],
-            true,
-            new lang_string('view'),
-        )));
-
-        $this->add_action((new action(
-            new moodle_url('/admin/tasklogs.php', ['logid' => ':id', 'download' => true]),
-            new pix_icon('t/download', ''),
-            [],
-            false,
-            new lang_string('download'),
-        )));
     }
 }
