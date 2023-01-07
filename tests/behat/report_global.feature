@@ -95,7 +95,6 @@ Feature: View payment report
     And I navigate to "Reports > Payments" in site administration
     And I set the field "downloadtype_download" to "json"
     And I press "Download"
-    # Then following "Download" should download between "1" and "70000" bytes
 
   @javascript
   Scenario: Managers can see the global payments report
@@ -145,12 +144,20 @@ Feature: View payment report
     And I navigate to "Reports > Payments" in current page administration
     Then I should see "EUR"
 
-  Scenario: Admins can see the payments report in category context
+  Scenario: Admins can see the payments report in subcategory context
     When I log in as "admin"
     And I go to the courses management page
     Then I should see the "Course categories and courses" management page
     And I should see "scitech" in the "#category-listing ul" "css_element"
     And I should see "phil" in the "#category-listing ul" "css_element"
     And I follow "Philosophy"
+    And I follow "Payments"
+    Then I should not see "Nothing to display"
+
+  Scenario: Admins can see the payments report in category context
+    When I log in as "admin"
+    And I go to the courses management page
+    Then I should see the "Course categories and courses" management page
+    And I follow "Science and technology"
     And I follow "Payments"
     Then I should not see "Nothing to display"

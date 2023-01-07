@@ -82,7 +82,11 @@ class payments_global extends system_report {
         $this->add_columns();
         $this->add_filters();
         if ($context->contextlevel == CONTEXT_COURSECAT) {
-            $this->add_base_condition_simple("$coursealias.category", $context->instanceid);
+            $coursecat = \core_course_category::get($context->instanceid);
+            // TODO: get_in_or_equal CANNOT be used (mixed params).
+            $courseids = $coursecat->get_courses(['recursive' => true, 'idonly' => true]);
+            $str = implode(',', $courseids);
+            $this->add_base_condition_sql("$coursealias.id IN ($str)", []);
         }
 
         $this->set_downloadable(true, get_string('payments'));

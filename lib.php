@@ -55,22 +55,6 @@ function report_payments_extend_navigation_category_settings($navigation, $conte
 
 
 /**
- * This function extends the navigation with the report items
- *
- * @param navigation_node $navigation The navigation node to extend
- * @param stdClass        $course     The course to object for the tool
- * @param context         $context    The context of the course
- */
-function report_payments_extend_navigation_frontpage($navigation, $course, $context) {
-    if (has_capability('report/payments:overview', $context)) {
-        $url = new moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
-        $txt = get_string('payments');
-        $navigation->add($txt, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/report', ''));
-    }
-}
-
-
-/**
  * Add nodes to myprofile page.
  *
  * @param \core_user\output\myprofile\tree $tree Tree object

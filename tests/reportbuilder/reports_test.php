@@ -59,6 +59,9 @@ class reports_test extends advanced_testcase {
         $pgen = $gen->get_plugin_generator('core_payment');
         $gen->create_category();
         $category = $gen->create_category();
+        $subcategory = $gen->create_category(['parent' => $category->id]);
+        $gen->create_course(['category' => $subcategory->id]);
+        $gen->create_course(['category' => $subcategory->id]);
         $course = $gen->create_course(['category' => $category->id]);
         $userid = $gen->create_user()->id;
         $roleid = $DB->get_record('role', ['shortname' => 'student'])->id;
