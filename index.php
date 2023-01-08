@@ -28,6 +28,7 @@ require_once("{$CFG->libdir}/adminlib.php");
 
 use report_payments\reportbuilder\local\systemreports\payments_course;
 use report_payments\reportbuilder\local\systemreports\payments_global;
+use report_payments\reportbuilder\local\systemreports\payments_user;
 use core_reportbuilder\system_report_factory;
 use core_reportbuilder\external\system_report_exporter;
 
@@ -64,10 +65,6 @@ $strheading = get_string('payments');
 
 $PAGE->set_title($strheading);
 switch ($context->contextlevel) {
-    case CONTEXT_USER:
-        $fullname = fullname($user, has_capability('moodle/site:viewfullnames', $context));
-        $PAGE->set_heading($fullname);
-        break;
     case CONTEXT_COURSECAT:
         core_course_category::page_setup();
         break;

@@ -154,8 +154,19 @@ class payment extends base {
      * @return filter[]
      */
     protected function get_all_filters(): array {
+
         $tablealias = $this->get_table_alias('payments');
         $name = $this->get_entity_name();
+
+        $ownermethod = static function(): array {
+            global $DB;
+            return $DB->get_records_menu('payment_accounts', ['enabled' => true]);
+        };
+
+        // Name filter.
+        $filters[] = (new filter(select::class, 'accountid',  new lang_string('name'), $name, "{$tablealias}.accountid"))
+            ->add_joins($this->get_joins())
+            ->set_options_callback($ownermethod);
 
         // Component filter.
         $filters[] = (new filter(text::class, 'component', new lang_string('plugin'), $name, "{$tablealias}.component"))

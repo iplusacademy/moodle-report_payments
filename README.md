@@ -3,7 +3,6 @@
 TODO:
 - user level (necessary?)
 - payment receiver level (eventualy)
-- scheduled monthly report
 
 Done:
 - global level
@@ -12,3 +11,5 @@ Done:
 - cost alignment
 - download reports
 - category level
+- datasource
+- scheduled monthly report (via report builder)

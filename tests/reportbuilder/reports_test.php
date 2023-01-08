@@ -28,11 +28,14 @@ use advanced_testcase;
 use context_course;
 use context_coursecat;
 use context_system;
+use context_user;
 use core_reportbuilder\system_report_factory;
 use enrol_fee\payment\service_provider;
 use moodle_url;
+use report_payments\reportbuilder\datasource\payments;
 use report_payments\reportbuilder\local\systemreports\payments_course;
 use report_payments\reportbuilder\local\systemreports\payments_global;
+use report_payments\reportbuilder\local\systemreports\payments_user;
 
 
 /**
@@ -47,6 +50,9 @@ class reports_test extends advanced_testcase {
 
     /** @var stdClass Course. */
     private $course;
+
+    /** @var int User. */
+    private $userid;
 
     /**
      * Setup testcase.
@@ -79,6 +85,7 @@ class reports_test extends advanced_testcase {
         $paymentid = $pgen->create_payment(['accountid' => $accountid, 'amount' => 10, 'userid' => $userid]);
         service_provider::deliver_order('fee', $id, $paymentid, $userid);
         $this->course = $course;
+        $this->userid = $userid;
     }
 
     /**
@@ -106,4 +113,30 @@ class reports_test extends advanced_testcase {
         $report = system_report_factory::create(payments_course::class, context_course::instance($this->course->id));
         $this->assertEquals($report->get_name(), 'Payments');
     }
+
+    /**
+     * Test the course report.
+     *
+     * @covers \report_payments\reportbuilder\local\systemreports\payments_user
+     * @covers \report_payments\reportbuilder\local\entities\payment
+     */
+    public function test_user() {
+        $report = system_report_factory::create(payments_user::class, context_user::instance($this->userid));
+        $this->assertEquals($report->get_name(), 'Payments');
+    }
+
+    /**
+     * Test the datasource.
+     *
+     * @covers \report_payments\reportbuilder\datasource\payments
+     * @covers \report_payments\reportbuilder\local\entities\payment
+     */
+    public function test_datasource() {
+        $gen = self::getDataGenerator()->get_plugin_generator('core_reportbuilder');
+        $report = $gen->create_report(['name' => 'Pay', 'source' => payments::class, 'default' => true]);
+        $this->assertEquals($report->get_formatted_name(), 'Pay');
+        $preport = new payments($report);
+        $this->assertEquals($preport->get_name(), 'Payments');
+    }
+
 }

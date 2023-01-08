@@ -32,6 +32,7 @@
         <exclude>
             <directory suffix="_test.php">.</directory>
             <directory suffix=".php">cli</directory>
+            <directory suffix=".php">db</directory>
             <directory suffix=".php">tests/behat</directory>
             <directory suffix=".php">lang/en</directory>
             <file>tests/coverage.php</file>

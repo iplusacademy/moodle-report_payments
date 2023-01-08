@@ -3,17 +3,17 @@ Feature: View payment report
 
   Background:
     Given the following "users" exist:
-      | username |
-      | teacher1 |
-      | student1 |
-      | student2 |
-      | student3 |
-      | student4 |
-      | student5 |
-      | manager1 |
-      | manager2 |
-      | manager3 |
-      | manager4 |
+      | username | firstname | lastname |
+      | teacher1 | teacher   | 1        |
+      | student1 | student   | 1        |
+      | student2 | student   | 3        |
+      | student3 | student   | 2        |
+      | student4 | student   | 4        |
+      | student5 | student   | 5        |
+      | manager1 | manager   | 1        |
+      | manager2 | manager   | 2        |
+      | manager3 | manager   | 3        |
+      | manager4 | manager   | 4        |
     And the following "categories" exist:
       | name                   | idnumber | category |
       | Science and technology | scitech  |          |
@@ -159,5 +159,14 @@ Feature: View payment report
     And I go to the courses management page
     Then I should see the "Course categories and courses" management page
     And I follow "Science and technology"
+    And I follow "Payments"
+    Then I should not see "Nothing to display"
+
+  @javascript
+  Scenario: Admins can see the payments report in user context
+    When I log in as "admin"
+    And I am on the "Course 1" course page
+    And I navigate to course participants
+    And I follow "student 1"
     And I follow "Payments"
     Then I should not see "Nothing to display"
