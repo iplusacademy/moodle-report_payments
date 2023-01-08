@@ -1,4 +1,4 @@
-@report @report_payments 
+@report @report_payments
 Feature: Payment reportbuilder feature
 
   Background:
