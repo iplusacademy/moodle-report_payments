@@ -4,12 +4,16 @@ Feature: Payment reportbuilder feature
   Background:
     Given the following "users" exist:
       | username |
+      | student1 |
       | teacher1 |
       | manager1 |
     And the following "core_payment > payment accounts" exist:
       | name           | gateways |
       | Dollar account | paypal   |
       | Euro account   | paypal   |
+    And the following "core_payment > payments" exist:
+      | account        | amount | user     |
+      | Dollar account | 10     | student1 |
 
   @javascript
   Scenario: Admins can generate a reportbuilder payments customreport

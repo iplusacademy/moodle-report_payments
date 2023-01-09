@@ -117,15 +117,18 @@ class payments_global extends system_report {
     public function add_columns(): void {
         $this->add_columns_from_entities([
             'payment:accountid',
-            'course:fullname',
+            'course:coursefullnamewithlink',
             'payment:gateway',
-            'user:fullnamewithlink',
+            'user:fullnamewithpicturelink',
             'payment:amount',
             'payment:currency',
             'payment:timecreated',
         ]);
-        if ($column = $this->get_column('course:fullname')) {
+        if ($column = $this->get_column('course:coursefullnamewithlink')) {
             $column->set_title(new lang_string('course'));
+        }
+        if ($column = $this->get_column('payment:accountid')) {
+            $column->set_title(new lang_string('accountname', 'payment'));
         }
         $this->set_initial_sort_column('payment:gateway', SORT_DESC);
     }

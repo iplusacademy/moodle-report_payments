@@ -104,15 +104,16 @@ class payments_course extends system_report {
      * Adds the columns we want to display in the report
      */
     public function add_columns(): void {
-        $columns = [
+        $this->add_columns_from_entities([
             'payment:accountid',
             'payment:gateway',
-            'user:fullnamewithlink',
+            'user:fullnamewithpicturelink',
             'payment:amount',
             'payment:currency',
-            'payment:timecreated',
-        ];
-        $this->add_columns_from_entities($columns);
+            'payment:timecreated']);
+        if ($column = $this->get_column('payment:accountid')) {
+            $column->set_title(new lang_string('accountname', 'payment'));
+        }
         $this->set_initial_sort_column('payment:timecreated', SORT_DESC);
     }
 
@@ -120,13 +121,11 @@ class payments_course extends system_report {
      * Adds the filters we want to display in the report
      */
     protected function add_filters(): void {
-        $filters = [
+        $this->add_filters_from_entities([
             'user:fullname',
             'payment:gateway',
             'payment:amount',
             'payment:currency',
-            'payment:timecreated',
-        ];
-        $this->add_filters_from_entities($filters);
+            'payment:timecreated']);
     }
 }

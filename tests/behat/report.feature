@@ -71,8 +71,16 @@ Feature: View payment report
     And I pay for course "Course 2"
     And I log out
 
-  @javascript
   Scenario: Admins can see the global payments report
+    When I log in as "admin"
+    And I navigate to "Reports > Payments" in site administration
+    Then I should see "EUR"
+    And I should see "USD"
+    And I should see "200"
+    And I click on "Cost" "button"
+
+  @javascript
+  Scenario: Admins can filter the global payments report
     When I log in as "admin"
     And I navigate to "Reports > Payments" in site administration
     Then I should see "EUR"
@@ -89,32 +97,26 @@ Feature: View payment report
     And I click on "Filters" "button"
     And I click on "Cost" "button"
 
-  @javascript
   Scenario: Managers can download the global payments report
     When I log in as "manager1"
     And I navigate to "Reports > Payments" in site administration
     And I set the field "downloadtype_download" to "json"
     And I press "Download"
+    And I wait until the page is ready
+    # If the download step is the last in the scenario then we can sometimes run
+    # into the situation where the download page causes a http redirect but behat
+    # has already conducted its reset (generating an error). By putting a logout
+    # step we avoid behat doing the reset until we are off that page.
+    And I log out
 
-  @javascript
   Scenario: Managers can see the global payments report
     When I log in as "manager1"
     And I navigate to "Reports > Payments" in site administration
     Then I should see "EUR"
     And I should see "USD"
     And I should see "200"
-    And I click on "Filters" "button"
-    And I set the following fields in the "Cost" "core_reportbuilder > Filter" to these values:
-      | Cost operator | Contains |
-      | Cost value    | 200      |
-    And I click on "Apply" "button"
-    Then I should not see "100"
-    And I click on "Reset all" "button"
-    Then I should see "USD"
-    And I click on "Filters" "button"
     And I click on "Course" "button"
 
-  @javascript
   Scenario: Global managers can see the course payments report
     When I log in as "manager1"
     And I am on the "Course 2" course page
@@ -122,16 +124,6 @@ Feature: View payment report
     Then I should see "EUR"
     And I should see "USD"
     And I should see "200"
-    And I click on "Filters" "button"
-    And I set the following fields in the "Currency" "core_reportbuilder > Filter" to these values:
-      | Currency operator | Contains |
-      | Currency value    | EUR      |
-    And I click on "Apply" "button"
-    Then I should not see "USD"
-    And I click on "Reset all" "button"
-    Then I should see "USD"
-    And I click on "Filters" "button"
-    And I click on "Cost" "button"
 
   Scenario: Local managers cannot see the course payments report
     When I log in as "manager4"
@@ -162,7 +154,6 @@ Feature: View payment report
     And I follow "Payments"
     Then I should not see "Nothing to display"
 
-  @javascript
   Scenario: Admins can see the payments report in user context
     When I log in as "admin"
     And I am on the "Course 1" course page

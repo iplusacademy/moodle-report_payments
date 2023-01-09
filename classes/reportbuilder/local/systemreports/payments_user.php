@@ -96,14 +96,15 @@ class payments_user extends system_report {
      * Adds the columns we want to display in the report
      */
     public function add_columns(): void {
-        $columns = [
+        $this->add_columns_from_entities([
             'payment:gateway',
             'payment:amount',
             'payment:currency',
             'payment:timecreated',
-            'course:fullname',
-        ];
-        $this->add_columns_from_entities($columns);
+            'course:coursefullnamewithlink']);
+        if ($column = $this->get_column('course:coursefullnamewithlink')) {
+            $column->set_title(new lang_string('course'));
+        }
         $this->set_initial_sort_column('payment:timecreated', SORT_DESC);
     }
 }

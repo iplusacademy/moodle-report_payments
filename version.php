@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2023010600;
+$plugin->version   = 2023010900;
 $plugin->requires  = 2022041200;
 $plugin->component = 'report_payments';
-$plugin->maturity  = MATURITY_BETA;
-$plugin->release   = 'v.1.0.1';
+$plugin->maturity  = MATURITY_RC;
+$plugin->release   = 'v.1.0.2';
