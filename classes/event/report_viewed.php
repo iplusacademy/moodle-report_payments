@@ -59,13 +59,16 @@ class report_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
+        $str = "The user with id '$this->userid' viewed the ";
         switch ($this->contextlevel) {
             case CONTEXT_USER:
-                return "The user with id '$this->userid' viewed the payments report about the user with id '$this->relateduserid'.";
+                return $str . "payments report about the user with id '$this->relateduserid'.";
             case CONTEXT_COURSE:
-                return "The user with id '$this->userid' viewed the payments report for the course with id '$this->courseid'.";
+                return $str . "payments report for the course with id '$this->courseid'.";
+            case CONTEXT_COURSECAT:
+                return $str . "payments report for the category with id '$this->contextinstanceid'.";
             default:
-                return "The user with id '$this->userid' viewed the global payments report.";
+                return $str . "global payments report.";
         }
     }
 
@@ -75,13 +78,18 @@ class report_viewed extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
+        $params = [];
         switch ($this->contextlevel) {
             case CONTEXT_USER:
-               return new \moodle_url('/report/payments/user.php',  ['id' => $this->relateduserid]);
+                $params['userid'] = $this->relateduserid;
+                break;
             case CONTEXT_COURSE:
-               return new \moodle_url('/report/payments/course.php', ['id' => $this->courseid]);
-            default:
-               return new \moodle_url('/report/payments/index.php');
+                $params['courseid'] = $this->courseid;
+                break;
+            case CONTEXT_COURSECAT:
+                $params['categoryid'] = $this->contextinstanceid;
+                break;
         }
+        return new \moodle_url('/report/payments/index.php', $params);
     }
 }

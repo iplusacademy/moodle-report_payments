@@ -26,6 +26,7 @@ namespace report_payments\event;
 
 use advanced_testcase;
 use context_course;
+use context_coursecat;
 use context_system;
 use context_user;
 use moodle_url;
@@ -71,9 +72,21 @@ class event_test extends advanced_testcase {
         $this->assertEquals($context, $event->get_context());
         $this->assertEquals('Payments report viewed', $event->get_name());
         $this->assertStringContainsString('the payments report for the course with id', $event->get_description());
-        $url = new moodle_url('/report/payments/course.php', ['id' => $course->id]);
+        $url = new moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEventContextNotUsed($event);
+
+        $context = context_coursecat::instance($course->category);
+        $event = \report_payments\event\report_viewed::create(['context' => $context]);
+        $event->trigger();
+        $events = $sink->get_events();
+        $event = end($events);
+        $this->assertInstanceOf('\report_payments\event\report_viewed', $event);
+        $this->assertEquals($context, $event->get_context());
+        $this->assertStringContainsString('report for the category', $event->get_description());
+        $url = new moodle_url('/report/payments/index.php', ['categoryid' => $course->category]);
+        $this->assertEquals($url, $event->get_url());
+        $this->assertEquals('Payments report viewed', $event->get_name());
 
         $context = context_system::instance();
         $event = \report_payments\event\report_viewed::create(['context' => $context]);
@@ -95,9 +108,11 @@ class event_test extends advanced_testcase {
         $this->assertInstanceOf('\report_payments\event\report_viewed', $event);
         $this->assertEquals($context, $event->get_context());
         $this->assertStringContainsString('viewed the payments report about the user with id', $event->get_description());
-        $url = new moodle_url('/report/payments/user.php', ['id' => $user->id]);
+        $url = new moodle_url('/report/payments/index.php', ['userid' => $user->id]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEquals('Payments report viewed', $event->get_name());
+
+        $sink->close();
     }
 
     /**

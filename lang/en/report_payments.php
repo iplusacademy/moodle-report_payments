@@ -26,7 +26,8 @@
 $string['eventreportviewed'] = 'Payments report viewed';
 $string['payments:overview'] = 'View payments global report';
 $string['payments:userview'] = 'View payments user report';
-$string['payments:view'] = 'View payments course report';$string['plugin'] = 'Plugin';
+$string['payments:view'] = 'View payments course report';
+$string['plugin'] = 'Plugin';
 $string['pluginname'] = 'Payments report';
 $string['privacy:metadata'] = 'The payments report plugin does not store any personal data.';
 $string['page-report-payments-course'] = 'Payments course report';

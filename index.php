@@ -57,6 +57,7 @@ if ($courseid == 1) {
     $params = ['courseid' => $courseid];
     $classname = payments_course::class;
 }
+require_login();
 
 $PAGE->set_url(new \moodle_url('/report/payments/index.php', $params));
 $PAGE->set_context($context);
@@ -75,7 +76,6 @@ switch ($context->contextlevel) {
     default:
         $PAGE->set_heading($strheading);
 }
-require_login();
 \report_payments\event\report_viewed::create(['context' => $context])->trigger();
 $report = system_report_factory::create($classname, $context);
 if (!empty($filter)) {
