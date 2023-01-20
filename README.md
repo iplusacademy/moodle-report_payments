@@ -18,7 +18,8 @@ This is a report generating an overview of payments done on different levels:
 * Course Category
 * Global
 
-But it also adds the possibility to add payments to custom reports so (daily - weekly) monthly reports can be generated.
+But it also adds the possibility to add payments to custom reports so (daily - weekly - monthly) reports can be generated and
+send automatically to the finance department.
 
 ### Supported databases ###
 
@@ -27,6 +28,10 @@ This plugin has been tested on
 * MYSQL
 * MariaDB
 * PostgreSQL
+
+### THANKS ###
+
+This plugin was developed for [Medical Access Uganda](https://medical-access.org/).
 
 ### Theme support ###
 
@@ -53,9 +58,7 @@ detailed support.
 
 ### Todo ###
 
-* payment receiver level (eventualy)
 * payment totals
-
 
 ### Done ###
 
