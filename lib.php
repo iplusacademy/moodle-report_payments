@@ -87,11 +87,11 @@ function report_payments_myprofile_navigation(\core_user\output\myprofile\tree $
  */
 function report_payments_page_type_list($pagetype, $parentcontext, $currentcontext) {
     return [
-        '*'                  => new \lang_string('page-x', 'pagetype'),
-        'report-*'           => new \lang_string('page-report-x', 'pagetype'),
-        'report-payments-*'      => new \lang_string('page-report-payments-x', 'report_payments'),
-        'report-payments-index'  => new \lang_string('page-report-payments-index', 'report_payments'),
+        '*' => new \lang_string('page-x', 'pagetype'),
+        'report-*' => new \lang_string('page-report-x', 'pagetype'),
+        'report-payments-*' => new \lang_string('page-report-payments-x', 'report_payments'),
+        'report-payments-index' => new \lang_string('page-report-payments-index', 'report_payments'),
         'report-payments-course' => new \lang_string('page-report-payments-course', 'report_payments'),
-        'report-payments-user'   => new \lang_string('page-report-payments-user', 'report_payments')
+        'report-payments-user' => new \lang_string('page-report-payments-user', 'report_payments')
         ];
 }
