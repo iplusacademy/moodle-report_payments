@@ -1,15 +1,14 @@
 # moodle-report_payments
 
-### Introduction ###
 This report helps admins and managers to get a better view who payed for which course.
 
-### Installation ###
+## Installation
 
 * Unzip code into the report/payments directory
 * Log into Moodle as administrator.
 * Visit Site admin => Notifications.
 
-### Use ###
+## Use
 
 This is a report generating an overview of payments done on different levels:
 
@@ -21,7 +20,7 @@ This is a report generating an overview of payments done on different levels:
 But it also adds the possibility to add payments to custom reports so (daily - weekly - monthly) reports can be generated and
 send automatically to the finance department.
 
-### Supported databases ###
+## Supported databases
 
 This plugin has been tested on
 
@@ -29,18 +28,19 @@ This plugin has been tested on
 * MariaDB
 * PostgreSQL
 
-### THANKS ###
+## THANKS
 
 This plugin was developed for [Medical Access Uganda](https://medical-access.org/).
 
-### Theme support ###
+## Theme support
 
 This plugin is developed and tested on Moodle Core's Boost theme and Boost child themes, including Moodle Core's Classic theme.
 
-### Moodle release support ###
+## Moodle release support
+
 This plugin is maintained for the latest major releases of Moodle.
 
-### Bug Reports / Support ###
+## Bug Reports / Support
 
 We try our best to deliver bug-free plugins, but we can not test the plugin for every platform, database, PHP and
 Moodle version. If you find any bug please report it on GitHub: https://github.com/iplusacademy/report_payments/issues.
@@ -52,16 +52,16 @@ If we consider the request generally useful and if it can be implemented with re
 You may also post general questions on the plugin on GitHub, but note that we do not have the resources to provide
 detailed support.
 
-### Maturity: Release candidate ###
+## Maturity: Release candidate
 
 [![Build Status](https://github.com/iplusacademy/report_payments/workflows/Tests/badge.svg)](https://github.com/iplusacademy/report_payments/actions)
 [![Coverage Status](https://coveralls.io/repos/github/iplusacademy/report_payments/badge.svg?branch=main)](https://coveralls.io/github/iplusacademy/report_payments?branch=main)
 
-### Todo ###
+## Todo
 
 * payment totals
 
-### Done ###
+## Done
 
 * global level
 * course level
@@ -72,3 +72,19 @@ detailed support.
 * datasource
 * scheduled monthly report (via report builder)
 * user level
+
+## Copyright
+
+2023 Medical Access Uganda
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <https://www.gnu.org/licenses/>.
