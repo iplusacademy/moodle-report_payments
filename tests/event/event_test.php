@@ -24,13 +24,6 @@
  */
 namespace report_payments\event;
 
-use advanced_testcase;
-use context_course;
-use context_coursecat;
-use context_system;
-use context_user;
-use moodle_url;
-
 /**
  * Class report_payments_events_testcase
  *
@@ -41,7 +34,7 @@ use moodle_url;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class event_test extends advanced_testcase {
+class event_test extends \advanced_testcase {
 
     /**
      * Setup testcase.
@@ -62,7 +55,7 @@ class event_test extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $user = $this->getDataGenerator()->create_user();
 
-        $context = context_course::instance($course->id);
+        $context = \context_course::instance($course->id);
         $event = \report_payments\event\report_viewed::create(['context' => $context, 'courseid' => $course->id]);
         $sink = $this->redirectEvents();
         $event->trigger();
@@ -72,11 +65,11 @@ class event_test extends advanced_testcase {
         $this->assertEquals($context, $event->get_context());
         $this->assertEquals('Payments report viewed', $event->get_name());
         $this->assertStringContainsString('the payments report for the course with id', $event->get_description());
-        $url = new moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
+        $url = new \moodle_url('/report/payments/index.php', ['courseid' => $course->id]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEventContextNotUsed($event);
 
-        $context = context_coursecat::instance($course->category);
+        $context = \context_coursecat::instance($course->category);
         $event = \report_payments\event\report_viewed::create(['context' => $context]);
         $event->trigger();
         $events = $sink->get_events();
@@ -84,11 +77,11 @@ class event_test extends advanced_testcase {
         $this->assertInstanceOf('\report_payments\event\report_viewed', $event);
         $this->assertEquals($context, $event->get_context());
         $this->assertStringContainsString('report for the category', $event->get_description());
-        $url = new moodle_url('/report/payments/index.php', ['categoryid' => $course->category]);
+        $url = new \moodle_url('/report/payments/index.php', ['categoryid' => $course->category]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEquals('Payments report viewed', $event->get_name());
 
-        $context = context_system::instance();
+        $context = \context_system::instance();
         $event = \report_payments\event\report_viewed::create(['context' => $context]);
         $event->trigger();
         $events = $sink->get_events();
@@ -96,11 +89,11 @@ class event_test extends advanced_testcase {
         $this->assertInstanceOf('\report_payments\event\report_viewed', $event);
         $this->assertEquals($context, $event->get_context());
         $this->assertStringContainsString('viewed the global payments report', $event->get_description());
-        $url = new moodle_url('/report/payments/index.php');
+        $url = new \moodle_url('/report/payments/index.php');
         $this->assertEquals($url, $event->get_url());
         $this->assertEquals('Payments report viewed', $event->get_name());
 
-        $context = context_user::instance($user->id);
+        $context = \context_user::instance($user->id);
         $event = \report_payments\event\report_viewed::create(['context' => $context, 'relateduserid' => $user->id]);
         $event->trigger();
         $events = $sink->get_events();
@@ -108,7 +101,7 @@ class event_test extends advanced_testcase {
         $this->assertInstanceOf('\report_payments\event\report_viewed', $event);
         $this->assertEquals($context, $event->get_context());
         $this->assertStringContainsString('viewed the payments report about the user with id', $event->get_description());
-        $url = new moodle_url('/report/payments/index.php', ['userid' => $user->id]);
+        $url = new \moodle_url('/report/payments/index.php', ['userid' => $user->id]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEquals('Payments report viewed', $event->get_name());
 
@@ -124,8 +117,8 @@ class event_test extends advanced_testcase {
         require_once($CFG->dirroot . '/report/payments/lib.php');
         $course = $this->getDataGenerator()->create_course();
         $user = $this->getDataGenerator()->create_user();
-        $systemcontext = context_system::instance();
-        $coursecontext = context_course::instance($course->id);
+        $systemcontext = \context_system::instance();
+        $coursecontext = \context_course::instance($course->id);
         $PAGE->set_url('/course/view.php', ['id' => $course->id]);
         $PAGE->set_course($course);
 

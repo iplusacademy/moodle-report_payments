@@ -26,9 +26,7 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once("{$CFG->libdir}/adminlib.php");
 
-use report_payments\reportbuilder\local\systemreports\payments_course;
-use report_payments\reportbuilder\local\systemreports\payments_global;
-use report_payments\reportbuilder\local\systemreports\payments_user;
+use report_payments\reportbuilder\local\systemreports\{payments_course, payments_global, payments_user};
 use core_reportbuilder\system_report_factory;
 use core_reportbuilder\external\system_report_exporter;
 

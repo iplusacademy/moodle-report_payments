@@ -25,14 +25,10 @@
 
 namespace report_payments\reportbuilder\local\systemreports;
 
-use context_coure;
-use context_system;
-use core_reportbuilder\local\entities\user;
-use core_reportbuilder\local\entities\course;
 use core_course\reportbuilder\local\entities\enrolment;
+use core_reportbuilder\local\entities\{user, course};
 use core_reportbuilder\local\report\action;
 use core_reportbuilder\local\helpers\database;
-use lang_string;
 use core_reportbuilder\system_report;
 use report_payments\reportbuilder\local\entities\payment;
 
@@ -103,7 +99,7 @@ class payments_user extends system_report {
             'payment:timecreated',
             'course:coursefullnamewithlink']);
         if ($column = $this->get_column('course:coursefullnamewithlink')) {
-            $column->set_title(new lang_string('course'));
+            $column->set_title(new \lang_string('course'));
         }
         $this->set_initial_sort_column('payment:timecreated', SORT_DESC);
     }

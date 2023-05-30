@@ -29,8 +29,7 @@ namespace report_payments\reportbuilder\datasource;
 
 use core_course\reportbuilder\local\entities\enrolment;
 use core_reportbuilder\datasource;
-use core_reportbuilder\local\entities\user;
-use core_reportbuilder\local\entities\course;
+use core_reportbuilder\local\entities\{course, user};
 use report_payments\reportbuilder\local\entities\payment;
 
 /**

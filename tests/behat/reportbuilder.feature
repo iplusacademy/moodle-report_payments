@@ -1,4 +1,4 @@
-@report @report_payments
+@report @report_payments @javascript
 Feature: Payment reportbuilder feature
 
   Background:
@@ -15,7 +15,6 @@ Feature: Payment reportbuilder feature
       | account        | amount | user     |
       | Dollar account | 10     | student1 |
 
-  @javascript
   Scenario: Admins can generate a reportbuilder payments customreport
     When I log in as "admin"
     And I change window size to "large"
@@ -36,7 +35,6 @@ Feature: Payment reportbuilder feature
       | Name      | Report source | Modified by |
       | My report | Payments      | Admin User  |
 
-  @javascript
   Scenario: Admins can generate a reportbuilder payments customreport without default setup
     When I log in as "admin"
     And I change window size to "large"
@@ -54,7 +52,6 @@ Feature: Payment reportbuilder feature
       | Name      | Report source | Modified by |
       | My report | Payments      | Admin User  |
 
-  @javascript
   Scenario Outline: Download payments report in different formats
     And the following "core_reportbuilder > Reports" exist:
       | name            | source                                            |

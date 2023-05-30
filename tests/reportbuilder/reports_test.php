@@ -24,18 +24,10 @@
  */
 namespace report_payments\reportbuilder;
 
-use advanced_testcase;
-use context_course;
-use context_coursecat;
-use context_system;
-use context_user;
 use core_reportbuilder\system_report_factory;
 use enrol_fee\payment\service_provider;
-use moodle_url;
 use report_payments\reportbuilder\datasource\payments;
-use report_payments\reportbuilder\local\systemreports\payments_course;
-use report_payments\reportbuilder\local\systemreports\payments_global;
-use report_payments\reportbuilder\local\systemreports\payments_user;
+use report_payments\reportbuilder\local\systemreports\{payments_course, payments_global, payments_user};
 
 
 /**
@@ -46,7 +38,7 @@ use report_payments\reportbuilder\local\systemreports\payments_user;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class reports_test extends advanced_testcase {
+class reports_test extends \advanced_testcase {
 
     /** @var stdClass Course. */
     private $course;
@@ -95,10 +87,10 @@ class reports_test extends advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_global() {
-        $context = context_system::instance();
+        $context = \context_system::instance();
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
-        $context = context_coursecat::instance($this->course->category);
+        $context = \context_coursecat::instance($this->course->category);
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
     }
@@ -110,7 +102,7 @@ class reports_test extends advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_course() {
-        $report = system_report_factory::create(payments_course::class, context_course::instance($this->course->id));
+        $report = system_report_factory::create(payments_course::class, \context_course::instance($this->course->id));
         $this->assertEquals($report->get_name(), 'Payments');
     }
 
@@ -121,7 +113,7 @@ class reports_test extends advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_user() {
-        $report = system_report_factory::create(payments_user::class, context_user::instance($this->userid));
+        $report = system_report_factory::create(payments_user::class, \context_user::instance($this->userid));
         $this->assertEquals($report->get_name(), 'Payments');
     }
 

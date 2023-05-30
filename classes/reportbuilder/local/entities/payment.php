@@ -25,20 +25,11 @@
 
 namespace report_payments\reportbuilder\local\entities;
 
-use core_reportbuilder\local\filters\date;
-use core_reportbuilder\local\filters\duration;
-use core_reportbuilder\local\filters\number;
-use core_reportbuilder\local\filters\select;
-use core_reportbuilder\local\filters\text;
-use core_reportbuilder\local\filters\autocomplete;
+use core_reportbuilder\local\filters\{date, duration, number, select, text, autocomplete};
 use core_reportbuilder\local\helpers\format;
-use lang_string;
 use core_reportbuilder\local\entities\base;
-use core_reportbuilder\local\report\column;
-use core_reportbuilder\local\report\filter;
-use stdClass;
-use html_writer;
-use core_collator;
+use core_reportbuilder\local\report\{column, filter};
+use lang_string;
 
 /**
  * Payment entity class implementation.

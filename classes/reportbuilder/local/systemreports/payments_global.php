@@ -25,17 +25,11 @@
 
 namespace report_payments\reportbuilder\local\systemreports;
 
-use context_coursecat;
-use context_system;
 use core_course\reportbuilder\local\entities\enrolment;
-use core_reportbuilder\local\entities\user;
-use core_reportbuilder\local\entities\course;
+use core_reportbuilder\local\entities\{user, course};
 use core_reportbuilder\local\helpers\database;
 use core_reportbuilder\local\report\action;
 use core_reportbuilder\system_report;
-use lang_string;
-use moodle_url;
-use pix_icon;
 use report_payments\reportbuilder\local\entities\payment;
 
 /**
@@ -125,10 +119,10 @@ class payments_global extends system_report {
             'payment:timecreated',
         ]);
         if ($column = $this->get_column('course:coursefullnamewithlink')) {
-            $column->set_title(new lang_string('course'));
+            $column->set_title(new \lang_string('course'));
         }
         if ($column = $this->get_column('payment:accountid')) {
-            $column->set_title(new lang_string('accountname', 'payment'));
+            $column->set_title(new \lang_string('accountname', 'payment'));
         }
         $this->set_initial_sort_column('payment:gateway', SORT_DESC);
     }
