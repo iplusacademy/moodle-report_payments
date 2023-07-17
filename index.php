@@ -80,5 +80,7 @@ if (!empty($filter)) {
     $report->set_filter_values(['payment:name_values' => $filter]);
 }
 echo $OUTPUT->header();
+$pluginname = get_string('pluginname', 'report_payments');
+\core\report_helper::print_report_selector($pluginname);
 echo $report->output();
 echo $OUTPUT->footer();
