@@ -92,6 +92,6 @@ function report_payments_page_type_list($pagetype, $parentcontext, $currentconte
         'report-payments-*' => new \lang_string('page-report-payments-x', 'report_payments'),
         'report-payments-index' => new \lang_string('page-report-payments-index', 'report_payments'),
         'report-payments-course' => new \lang_string('page-report-payments-course', 'report_payments'),
-        'report-payments-user' => new \lang_string('page-report-payments-user', 'report_payments')
+        'report-payments-user' => new \lang_string('page-report-payments-user', 'report_payments'),
         ];
 }

@@ -29,13 +29,16 @@ $capabilities = [
     'report/payments:view' => [
          'captype' => 'read',
          'contextlevel' => CONTEXT_COURSE,
-         'archetypes' => ['editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW]],
+         'archetypes' => ['editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
+    ],
     'report/payments:userview' => [
          'captype' => 'read',
          'contextlevel' => CONTEXT_USER,
-         'archetypes' => ['manager' => CAP_ALLOW]],
+         'archetypes' => ['manager' => CAP_ALLOW],
+    ],
     'report/payments:overview' => [
          'captype' => 'read',
          'contextlevel' => CONTEXT_SYSTEM,
-         'archetypes' => ['manager' => CAP_ALLOW]]
+         'archetypes' => ['manager' => CAP_ALLOW],
+    ],
 ];
