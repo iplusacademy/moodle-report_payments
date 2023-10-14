@@ -30,15 +30,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_401_STABLE', 'MOODLE_402_STABLE', 'master']
         php: ['8.0', '8.1']
+        moodle-branch: ['MOODLE_401_STABLE', 'MOODLE_402_STABLE', 'MOODLE_403_STABLE', 'master']
         database: ['mariadb', 'pgsql']
         include:
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
             database: 'pgsql'
           - php: '8.2'
-            moodle-branch: 'MOODLE_402_STABLE'
+            moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
 
     steps:
@@ -68,63 +68,47 @@ jobs:
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
       
       - name: phplint
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phplint
 
       - name: phpcpd
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phpcpd
 
       - name: phpmd
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phpmd
 
       - name: phpdoc
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phpdoc
 
       - name: codechecker
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi codechecker
 
       - name: validate
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi validate
 
       - name: savepoints
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi savepoints
 
       - name: grunt
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi grunt
 
       - name: mustache
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi mustache
 
       - name: phpunit
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi phpunit --coverage-text --coverage-clover
 
-      - name: firefox
-        if: ${{ always() }}
-        run: moodle-plugin-ci --ansi behat
-      
-      - name: chrome
-        if: ${{ always() }}
-        run: moodle-plugin-ci --ansi behat --profile chrome
-
-      - name: firefox classic
-        if: ${{ always() }}
-        run: moodle-plugin-ci --ansi behat --suite="classic"
-      
-      - name: chrome classic
-        if: ${{ always() }}
-        run: moodle-plugin-ci --ansi behat  --suite="classic" --profile chrome
-
       - name: privacy
-        if: ${{ always() }}
+        if: ${{ !cancelled() }}
         run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
         working-directory: moodle
 
@@ -132,3 +116,29 @@ jobs:
         run: moodle-plugin-ci coveralls-upload || true
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: firefox
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat
+      
+      - name: chrome
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --profile chrome
+
+      - name: firefox classic
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --suite="classic"
+      
+      - name: chrome classic
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat  --suite="classic" --profile chrome
+
+      - name: admin bookmarks
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --auto-rerun=0 --profile chrome blocks/admin_bookmarks
+        working-directory: moodle
+
+      - name: admin xmldb
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --auto-rerun=0 --profile chrome admin/tool/xmldb
+        working-directory: moodle
