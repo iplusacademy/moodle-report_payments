@@ -41,7 +41,6 @@ use report_payments\reportbuilder\local\entities\payment;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class payments_course extends system_report {
-
     /**
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */

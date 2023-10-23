@@ -40,7 +40,6 @@ use lang_string;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class payment extends base {
-
     /**
      * Database tables that this entity uses and their default aliases
      *
@@ -149,13 +148,13 @@ class payment extends base {
         $tablealias = $this->get_table_alias('payments');
         $name = $this->get_entity_name();
 
-        $ownermethod = static function(): array {
+        $ownermethod = static function (): array {
             global $DB;
             return $DB->get_records_menu('payment_accounts', ['enabled' => true]);
         };
 
         // Name filter.
-        $filters[] = (new filter(select::class, 'accountid',  new lang_string('name'), $name, "{$tablealias}.accountid"))
+        $filters[] = (new filter(select::class, 'accountid', new lang_string('name'), $name, "{$tablealias}.accountid"))
             ->add_joins($this->get_joins())
             ->set_options_callback($ownermethod);
 

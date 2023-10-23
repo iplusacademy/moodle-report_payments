@@ -28,7 +28,7 @@
 
 require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 
-use Behat\Mink\Exception\ElementNotFoundException as ElementNotFoundException;
+use Behat\Mink\Exception\ElementNotFoundException;
 
 /**
  * Step definitions to process a payment
@@ -39,7 +39,6 @@ use Behat\Mink\Exception\ElementNotFoundException as ElementNotFoundException;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_report_payments extends behat_base {
-
     /**
      * Pay for a course
      * @Then /^I pay for course "(?P<course>[^"]*)"$/

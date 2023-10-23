@@ -35,11 +35,10 @@ namespace report_payments\event;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class event_test extends \advanced_testcase {
-
     /**
      * Setup testcase.
      */
-    public function setUp():void {
+    public function setUp(): void {
         $this->setAdminUser();
         $this->resetAfterTest();
     }

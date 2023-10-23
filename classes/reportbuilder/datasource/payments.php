@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace report_payments\reportbuilder\datasource;
 
@@ -41,7 +41,6 @@ use report_payments\reportbuilder\local\entities\payment;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class payments extends datasource {
-
     /**
      * Initialise report
      */
@@ -71,7 +70,7 @@ class payments extends datasource {
         ));
 
         $this->add_entity($course->add_join(
-             "LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid"
+            "LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid"
         ));
 
         $this->add_columns_from_entity($mainname);

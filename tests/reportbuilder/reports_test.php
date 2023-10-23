@@ -39,7 +39,6 @@ use report_payments\reportbuilder\local\systemreports\{payments_course, payments
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class reports_test extends \advanced_testcase {
-
     /** @var stdClass Course. */
     private $course;
 
@@ -49,7 +48,7 @@ class reports_test extends \advanced_testcase {
     /**
      * Setup testcase.
      */
-    public function setUp():void {
+    public function setUp(): void {
         global $DB;
         $this->setAdminUser();
         $this->resetAfterTest();
@@ -130,5 +129,4 @@ class reports_test extends \advanced_testcase {
         $preport = new payments($report);
         $this->assertEquals($preport->get_name(), 'Payments');
     }
-
 }

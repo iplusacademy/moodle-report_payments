@@ -29,5 +29,6 @@ $ADMIN->add('reports', new admin_externalpage(
     'reportpayments',
     get_string('payments'),
     $CFG->wwwroot . '/report/payments/index.php',
-    'report/payments:overview'));
+    'report/payments:overview'
+));
 $settings = null;

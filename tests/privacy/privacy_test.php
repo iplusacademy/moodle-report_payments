@@ -35,7 +35,6 @@ use core_privacy\tests\provider_testcase;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class privacy_test extends provider_testcase {
-
     /**
      * Test returning metadata.
      * @covers \report_payments\privacy\provider
