@@ -54,7 +54,7 @@ detailed support.
 
 ## Maturity: Release candidate
 
-[![Build Status](https://github.com/iplusacademy/report_payments/workflows/Tests/badge.svg)](https://github.com/iplusacademy/report_payments/actions)
+[![Build Status](https://github.com/iplusacademy/report_payments/actions/workflows/main.yml/badge.svg)](https://github.com/iplusacademy/report_payments/actions/workflows/main.yml)
 [![Coverage Status](https://coveralls.io/repos/github/iplusacademy/report_payments/badge.svg?branch=main)](https://coveralls.io/github/iplusacademy/report_payments?branch=main)
 
 ## Todo
