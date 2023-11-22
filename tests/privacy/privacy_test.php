@@ -39,7 +39,7 @@ class privacy_test extends provider_testcase {
      * Test returning metadata.
      * @covers \report_payments\privacy\provider
      */
-    public function test_get_metadata() {
+    public function test_get_metadata(): void {
         $str = 'report_payments';
         $this->resetAfterTest(true);
         $collection = new \core_privacy\local\metadata\collection($str);

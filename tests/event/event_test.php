@@ -50,7 +50,7 @@ class event_test extends \advanced_testcase {
      * simply create the event and trigger it.
      * @covers \report_payments\event\report_viewed
      */
-    public function test_report_viewed() {
+    public function test_report_viewed(): void {
         $course = $this->getDataGenerator()->create_course();
         $user = $this->getDataGenerator()->create_user();
 
@@ -111,7 +111,7 @@ class event_test extends \advanced_testcase {
      * Tests the report navigation as an admin.
      * @coversNothing
      */
-    public function test_report_payments_navigation() {
+    public function test_report_payments_navigation(): void {
         global $CFG, $PAGE, $USER;
         require_once($CFG->dirroot . '/report/payments/lib.php');
         $course = $this->getDataGenerator()->create_course();
@@ -138,7 +138,7 @@ class event_test extends \advanced_testcase {
      * Tests the report page type list.
      * @coversNothing
      */
-    public function test_report_payments_page_type() {
+    public function test_report_payments_page_type(): void {
         global $CFG, $PAGE;
         $course = $this->getDataGenerator()->create_course();
         $PAGE->set_url('/course/view.php', ['id' => $course->id]);

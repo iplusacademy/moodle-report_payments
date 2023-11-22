@@ -85,7 +85,7 @@ class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\local\systemreports\payments_global
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
-    public function test_global() {
+    public function test_global(): void {
         $context = \context_system::instance();
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
@@ -100,7 +100,7 @@ class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\local\systemreports\payments_course
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
-    public function test_course() {
+    public function test_course(): void {
         $report = system_report_factory::create(payments_course::class, \context_course::instance($this->course->id));
         $this->assertEquals($report->get_name(), 'Payments');
     }
@@ -111,7 +111,7 @@ class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\local\systemreports\payments_user
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
-    public function test_user() {
+    public function test_user(): void {
         $report = system_report_factory::create(payments_user::class, \context_user::instance($this->userid));
         $this->assertEquals($report->get_name(), 'Payments');
     }
@@ -122,7 +122,7 @@ class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\datasource\payments
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
-    public function test_datasource() {
+    public function test_datasource(): void {
         $gen = self::getDataGenerator()->get_plugin_generator('core_reportbuilder');
         $report = $gen->create_report(['name' => 'Pay', 'source' => payments::class, 'default' => true]);
         $this->assertEquals($report->get_formatted_name(), 'Pay');
