@@ -114,7 +114,7 @@ class payment extends base {
         // Amount column.
         $columns[] = (new column('amount', new lang_string('cost'), $name))
             ->add_joins($this->get_joins())
-            ->set_type(column::TYPE_FLOAT)
+            ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.amount")
             ->set_is_sortable(true)
             ->add_callback(function(?string $value): string {
@@ -122,9 +122,7 @@ class payment extends base {
                     return '0';
                 }
                 $floa = floatval($value);
-                $floa = $formatfloat($floa, 2);
                 return number_format($floa, 2);
-
             });
 
         // Currency column.
