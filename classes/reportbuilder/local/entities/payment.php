@@ -117,7 +117,13 @@ class payment extends base {
             ->set_type(column::TYPE_TEXT)
             ->add_field("{$tablealias}.amount")
             ->set_is_sortable(true)
-            ->add_attributes(['class' => 'text-right']);
+            ->add_callback(function(?string $value): string {
+                if ($value === '') {
+                    return '0';
+                }
+                $floa = floatval($value);
+                return number_format($floa, 2);
+            });
 
         // Currency column.
         $columns[] = (new column('currency', new lang_string('currency'), $name))
