@@ -18,7 +18,7 @@
  * Payments datasource
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda
+ * @copyright  2023 Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,7 +36,7 @@ use report_payments\reportbuilder\local\entities\payment;
  * Payments datasource
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda
+ * @copyright  2023 Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
