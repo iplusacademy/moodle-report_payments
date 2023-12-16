@@ -35,7 +35,7 @@ jobs:
         database: ['mariadb', 'pgsql']
         include:
           - php: '8.2'
-            moodle-branch: 'main'
+            moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
 
     steps:
