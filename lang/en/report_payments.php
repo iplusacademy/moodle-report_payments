@@ -18,7 +18,7 @@
  * The paymenst report
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda
+ * @copyright  2023 Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,7 +28,7 @@ $string['payments:overview'] = 'View payments global report';
 $string['payments:userview'] = 'View payments user report';
 $string['payments:view'] = 'View payments course report';
 $string['plugin'] = 'Plugin';
-$string['pluginname'] = 'Payments report';
+$string['pluginname'] = 'Payments';
 $string['privacy:metadata'] = 'The payments report plugin does not store any personal data.';
 $string['page-report-payments-course'] = 'Payments course report';
 $string['page-report-payments-index'] = 'Payments global report';

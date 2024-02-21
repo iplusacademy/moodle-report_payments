@@ -18,7 +18,7 @@
  * Version information
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda
+ * @copyright  2023 Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,5 +29,5 @@ $plugin->requires = 2022112800;
 $plugin->component = 'report_payments';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->supported = [401, 403];
-$plugin->release = 'v1.0.6';
-$plugin->version = 2023101400;
+$plugin->release = 'v4.1.1';
+$plugin->version = 2023112300;

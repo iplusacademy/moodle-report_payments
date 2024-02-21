@@ -35,7 +35,7 @@ jobs:
         database: ['mariadb', 'pgsql']
         include:
           - php: '8.2'
-            moodle-branch: 'main'
+            moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
 
     steps:
@@ -53,7 +53,7 @@ jobs:
 
       - name: composer
         run: |
-          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci
           echo $(cd ci/bin; pwd) >> $GITHUB_PATH
           echo $(cd ci/vendor/bin; pwd) >> $GITHUB_PATH
           sudo locale-gen en_AU.UTF-8

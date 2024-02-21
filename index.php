@@ -18,17 +18,19 @@
  * Global payments.
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda
+ * @copyright  2023 Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../../config.php');
-require_once("{$CFG->libdir}/adminlib.php");
-
+use core\report_helper;
 use report_payments\reportbuilder\local\systemreports\{payments_course, payments_global, payments_user};
 use core_reportbuilder\system_report_factory;
 use core_reportbuilder\external\system_report_exporter;
+
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once("{$CFG->libdir}/adminlib.php");
+
 
 $courseid = optional_param('courseid', 1, PARAM_INT);
 $userid = optional_param('userid', 0, PARAM_INT);
@@ -58,8 +60,8 @@ if ($courseid == 1) {
 require_login();
 
 $PAGE->set_url(new \moodle_url('/report/payments/index.php', $params));
+$PAGE->set_pagelayout('report');
 $PAGE->set_context($context);
-$PAGE->set_pagelayout('admin');
 $strheading = get_string('payments');
 
 $PAGE->set_title($strheading);
@@ -70,17 +72,19 @@ switch ($context->contextlevel) {
     case CONTEXT_COURSE:
         $course = get_course($courseid);
         $PAGE->set_heading($course->fullname);
+        $PAGE->set_course($course);
         break;
     default:
         $PAGE->set_heading($strheading);
 }
 \report_payments\event\report_viewed::create(['context' => $context])->trigger();
 $report = system_report_factory::create($classname, $context);
+
 if (!empty($filter)) {
     $report->set_filter_values(['payment:name_values' => $filter]);
 }
 echo $OUTPUT->header();
 $pluginname = get_string('pluginname', 'report_payments');
-\core\report_helper::print_report_selector($pluginname);
+report_helper::print_report_selector($pluginname);
 echo $report->output();
 echo $OUTPUT->footer();
