@@ -81,6 +81,15 @@ class payment extends base {
     }
 
     /**
+     * Database tables that this entity uses
+     *
+     * @return string[]
+     */
+    protected function get_default_tables(): array {
+        return ['payments'];
+    }
+
+    /**
      * Returns list of all available columns
      *
      * @return column[]
@@ -118,11 +127,7 @@ class payment extends base {
             ->add_field("{$tablealias}.amount")
             ->set_is_sortable(true)
             ->add_callback(function(?string $value): string {
-                if ($value === '') {
-                    return '0';
-                }
-                $floa = floatval($value);
-                return number_format($floa, 2);
+                return ($value === '') ? '0' : number_format(floatval($value), 2);
             });
 
         // Currency column.
