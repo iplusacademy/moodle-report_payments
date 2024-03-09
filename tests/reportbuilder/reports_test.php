@@ -38,7 +38,7 @@ use report_payments\reportbuilder\local\systemreports\{payments_course, payments
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class reports_test extends \advanced_testcase {
+final class reports_test extends \advanced_testcase {
     /** @var stdClass Course. */
     private $course;
 
