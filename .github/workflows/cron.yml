@@ -12,13 +12,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_403_STABLE']
-        php: ['8.2']
-        database: ['mysqli']
+        moodle-branch: [main]
+        php: [8.2]
+        database: [mysqli]
 
     steps:
       - name: checkout plugin
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: this-plugin
 
