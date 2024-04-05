@@ -24,13 +24,13 @@
  */
 
 $string['eventreportviewed'] = 'Payments report viewed';
+$string['page-report-payments-course'] = 'Payments course report';
+$string['page-report-payments-index'] = 'Payments global report';
+$string['page-report-payments-user'] = 'Payments user report';
+$string['page-report-payments-x'] = 'Any payments report';
 $string['payments:overview'] = 'View payments global report';
 $string['payments:userview'] = 'View payments user report';
 $string['payments:view'] = 'View payments course report';
 $string['plugin'] = 'Plugin';
 $string['pluginname'] = 'Payments';
 $string['privacy:metadata'] = 'The payments report plugin does not store any personal data.';
-$string['page-report-payments-course'] = 'Payments course report';
-$string['page-report-payments-index'] = 'Payments global report';
-$string['page-report-payments-user'] = 'Payments user report';
-$string['page-report-payments-x'] = 'Any payments report';
