@@ -24,6 +24,14 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Tests for payments report events.
+ *
+ * @package   report_payments
+ * @copyright 2023 Medical Access Uganda Limited
+ * @author    Renaat Debleu <info@eWallah.net>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 return new class extends phpunit_coverage_info {
     /** @var array The list of folders relative to the plugin root to include in coverage generation. */
     protected $includelistfolders = ['classes'];
