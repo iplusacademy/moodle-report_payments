@@ -18,7 +18,7 @@
  * Tests for payments report events.
  *
  * @package   report_payments
- * @copyright 2023 Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited (e-learning.medical-access.org)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,7 +30,7 @@ namespace report_payments\event;
  * Class for tests related to payments report events.
  *
  * @package   report_payments
- * @copyright 2020 Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited (e-learning.medical-access.org)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
