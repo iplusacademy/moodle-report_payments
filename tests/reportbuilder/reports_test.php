@@ -18,7 +18,7 @@
  * Tests for payments report events.
  *
  * @package   report_payments
- * @copyright 2023 Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -86,9 +86,14 @@ final class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_global(): void {
+        global $PAGE;
         $context = \context_system::instance();
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
+        $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => 1]));
+        $out = $report->output();
+        $this->assertStringContainsString('Nothing to display', $out);
+        $this->assertEquals(0, substr_count($out, 'paypal'));
         $context = \context_coursecat::instance($this->course->category);
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
@@ -101,8 +106,14 @@ final class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_course(): void {
-        $report = system_report_factory::create(payments_course::class, \context_course::instance($this->course->id));
+        global $PAGE;
+        $context = \context_course::instance($this->course->id);
+        $report = system_report_factory::create(payments_course::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
+        $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => $this->course->id]));
+        $out = $report->output();
+        $this->assertStringContainsString('airtelafrica', $out);
+        $this->assertEquals(1, substr_count($out, 'airtelafrica'));
     }
 
     /**
@@ -112,8 +123,14 @@ final class reports_test extends \advanced_testcase {
      * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_user(): void {
-        $report = system_report_factory::create(payments_user::class, \context_user::instance($this->userid));
+        global $PAGE;
+        $context = \context_user::instance($this->userid);
+        $report = system_report_factory::create(payments_user::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
+        $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['userid' => $this->userid]));
+        $out = $report->output();
+        $this->assertStringContainsString('Nothing to display', $out);
+        $this->assertEquals(0, substr_count($out, 'paypal'));
     }
 
     /**
