@@ -24,6 +24,10 @@
  */
 namespace report_payments\reportbuilder;
 
+use context_course;
+use context_coursecat;
+use context_system;
+use context_user;
 use core_reportbuilder\system_report_factory;
 use enrol_fee\payment\service_provider;
 use report_payments\reportbuilder\datasource\payments;
@@ -73,10 +77,18 @@ final class reports_test extends \advanced_testcase {
             'roleid' => $roleid,
         ];
         $id = $feeplugin->add_instance($course, $data);
-        $paymentid = $pgen->create_payment(['accountid' => $accountid, 'amount' => 10, 'userid' => $userid]);
+        $paymentid = $pgen->create_payment(['gateway' => 'paypal', 'accountid' => $accountid, 'amount' => 10, 'userid' => $userid]);
         service_provider::deliver_order('fee', $id, $paymentid, $userid);
         $this->course = $course;
         $this->userid = $userid;
+        $context = context_course::instance($course->id);
+        $this->assertTrue(is_enrolled($context, $userid));
+        $this->assertTrue(user_has_role_assignment($userid, $roleid, $context->id));
+        $records = $DB->get_records('payments', []);
+        foreach($records as $record) {
+            $DB->set_field('payments', 'paymentarea', 'fee', ['id' => $record->id]);
+        }
+
     }
 
     /**
@@ -87,13 +99,13 @@ final class reports_test extends \advanced_testcase {
      */
     public function test_global(): void {
         global $PAGE;
-        $context = \context_system::instance();
+        $context = context_system::instance();
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => 1]));
         $out = $report->output();
-        $this->assertStringContainsString('Nothing to display', $out);
-        $this->assertEquals(0, substr_count($out, 'paypal'));
+        $this->assertStringNotContainsString('Nothing to display', $out);
+        $this->assertEquals(1, substr_count($out, 'paypal'));
         $context = \context_coursecat::instance($this->course->category);
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
@@ -107,13 +119,13 @@ final class reports_test extends \advanced_testcase {
      */
     public function test_course(): void {
         global $PAGE;
-        $context = \context_course::instance($this->course->id);
+        $context = context_course::instance($this->course->id);
         $report = system_report_factory::create(payments_course::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => $this->course->id]));
         $out = $report->output();
-        $this->assertStringContainsString('airtelafrica', $out);
-        $this->assertEquals(1, substr_count($out, 'airtelafrica'));
+        $this->assertStringContainsString('paypal', $out);
+        $this->assertEquals(1, substr_count($out, 'paypal'));
     }
 
     /**
@@ -124,13 +136,18 @@ final class reports_test extends \advanced_testcase {
      */
     public function test_user(): void {
         global $PAGE;
-        $context = \context_user::instance($this->userid);
+        $context = context_user::instance($this->userid);
         $report = system_report_factory::create(payments_user::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['userid' => $this->userid]));
         $out = $report->output();
-        $this->assertStringContainsString('Nothing to display', $out);
-        $this->assertEquals(0, substr_count($out, 'paypal'));
+        $this->assertStringNotContainsString('Nothing to display', $out);
+        $this->assertEquals(1, substr_count($out, 'paypal'));
+        $this->assertStringContainsString('filters', $out);
+        $this->assertStringContainsString('download', $out);
+        $this->assertStringContainsString('currency', $out);
+        $this->assertStringContainsString('course', $out);
+        $this->assertStringContainsString('amount', $out);
     }
 
     /**

@@ -59,7 +59,7 @@ detailed support.
 
 ## Todo
 
-* payment totals
+* payment totals (See MDL-80153)
 
 ## Done
 
@@ -75,7 +75,7 @@ detailed support.
 
 ## Copyright
 
-2023 Medical Access Uganda
+Medical Access Uganda Limited
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

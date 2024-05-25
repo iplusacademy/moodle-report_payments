@@ -18,7 +18,7 @@
  * Step definitions to process a payment
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda Limited
+ * @copyright  Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ use Behat\Mink\Exception\ElementNotFoundException;
  * Step definitions to process a payment
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda Limited
+ * @copyright  Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -61,12 +61,12 @@ class behat_report_payments extends behat_base {
         $account = $DB->get_record('payment_accounts', ['id' => $enrol->customint1]);
         $record = new \stdClass();
         $record->component = 'enrol_fee';
-        $record->paymentarea = 'area';
+        $record->paymentarea = 'fee';
         $record->itemid = $context->id;
         $record->userid = $user->id;
         $record->amount = $enrol->cost;
         $record->currency = $enrol->currency;
-        $record->gateway = 'Paypal';
+        $record->gateway = 'paypal';
         $record->accountid = $account->id;
         $record->timecreated = $record->timemodified = time();
         $DB->insert_record('payments', $record);
