@@ -18,7 +18,7 @@
  * Global payments
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda Limited
+ * @copyright  Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,7 +36,7 @@ use report_payments\reportbuilder\local\entities\payment;
  * Global payments
  *
  * @package    report_payments
- * @copyright  2023 Medical Access Uganda Limited
+ * @copyright  Medical Access Uganda Limited
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -62,15 +62,17 @@ class payments_global extends system_report {
         $enrol = new enrolment();
         $enrolalias = $enrol->get_table_alias('enrol');
         $userenrolalias = $enrol->get_table_alias('user_enrolments');
-        $enrol->add_join("LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid");
-        $enrol->add_join("LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$userenrolalias}.enrolid");
+        $enrol->add_joins($user->get_joins())
+            ->add_join("INNER JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid")
+            ->add_join("INNER JOIN {enrol} {$enrolalias} ON
+                              {$enrolalias}.id = {$userenrolalias}.enrolid AND
+                              {$enrolalias}.enrol = {$mainalias}.paymentarea");
         $this->add_entity($enrol);
 
         $course = new course();
         $coursealias = $course->get_table_alias('course');
-        $course->add_join("LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid");
-        $course->add_join("LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$userenrolalias}.enrolid");
-        $course->add_join("LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
+        $course->add_joins($enrol->get_joins())
+            ->add_join("INNER JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
         $this->add_entity($course);
 
         $this->add_columns();
