@@ -29,5 +29,5 @@ $plugin->requires = 2023042400;
 $plugin->component = 'report_payments';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->supported = [402, 404];
-$plugin->release = 'v4.4.1';
-$plugin->version = 2024042100;
+$plugin->release = 'v4.4.2';
+$plugin->version = 2024052500;
