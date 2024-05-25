@@ -18,7 +18,7 @@
  * Payment entity class implementation.
  *
  * @package   report_payments
- * @copyright 2023 Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +35,7 @@ use lang_string;
  * Payment entity class implementation.
  *
  * @package   report_payments
- * @copyright 2023 Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -94,7 +94,7 @@ class payment extends base {
      *
      * @return column[]
      */
-    protected function get_all_columns(): array {
+    private function get_all_columns(): array {
         $tablealias = $this->get_table_alias('payments');
         $name = $this->get_entity_name();
 
@@ -154,7 +154,7 @@ class payment extends base {
      *
      * @return filter[]
      */
-    protected function get_all_filters(): array {
+    private function get_all_filters(): array {
 
         $tablealias = $this->get_table_alias('payments');
         $name = $this->get_entity_name();
