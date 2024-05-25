@@ -18,7 +18,7 @@
  * Lib functions
  *
  * @package   report_payments
- * @copyright Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited (e-learning.medical-access.org)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -68,11 +68,14 @@ function report_payments_myprofile_navigation(\core_user\output\myprofile\tree $
     if (isguestuser($user) || !isloggedin()) {
         return false;
     }
-    $context = \context_user::instance($user->id);
-    if (has_capability('report/payments:userview', $context)) {
+    $contextuser = \context_user::instance($user->id);
+    $contextcourse = \context_course::instance($course->id);
+    if (
+        has_capability('report/payments:userview', $contextuser) &&
+        has_capability('report/payments:view', $contextcourse)
+        ) {
         $url = new moodle_url('/report/payments/index.php', ['userid' => $user->id]);
-        $txt = get_string('payments');
-        $node = new \core_user\output\myprofile\node('reports', 'payments', $txt, null, $url);
+        $node = new \core_user\output\myprofile\node('reports', 'payments', get_string('payments'), null, $url);
         $tree->add_node($node);
     }
     return true;

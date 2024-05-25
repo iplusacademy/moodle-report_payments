@@ -18,7 +18,7 @@
  * Tests for payments report events.
  *
  * @package   report_payments
- * @copyright Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited (e-learning.medical-access.org)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -38,7 +38,7 @@ use report_payments\reportbuilder\local\systemreports\{payments_course, payments
  * Class report payments global report tests
  *
  * @package   report_payments
- * @copyright 2020 Medical Access Uganda Limited
+ * @copyright Medical Access Uganda Limited (e-learning.medical-access.org)
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -85,10 +85,9 @@ final class reports_test extends \advanced_testcase {
         $this->assertTrue(is_enrolled($context, $userid));
         $this->assertTrue(user_has_role_assignment($userid, $roleid, $context->id));
         $records = $DB->get_records('payments', []);
-        foreach($records as $record) {
+        foreach ($records as $record) {
             $DB->set_field('payments', 'paymentarea', 'fee', ['id' => $record->id]);
         }
-
     }
 
     /**
@@ -103,12 +102,11 @@ final class reports_test extends \advanced_testcase {
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => 1]));
-        $out = $report->output();
-        $this->assertStringNotContainsString('Nothing to display', $out);
-        $this->assertEquals(1, substr_count($out, 'paypal'));
+        $this->output_assert($report->output());
         $context = \context_coursecat::instance($this->course->category);
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
+        $this->output_assert($report->output());
     }
 
     /**
@@ -123,9 +121,7 @@ final class reports_test extends \advanced_testcase {
         $report = system_report_factory::create(payments_course::class, $context);
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => $this->course->id]));
-        $out = $report->output();
-        $this->assertStringContainsString('paypal', $out);
-        $this->assertEquals(1, substr_count($out, 'paypal'));
+        $this->output_assert($report->output());
     }
 
     /**
@@ -141,12 +137,21 @@ final class reports_test extends \advanced_testcase {
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['userid' => $this->userid]));
         $out = $report->output();
+        $this->assertStringContainsString('course', $out);
+        $this->output_assert($out);
+    }
+
+    /**
+     * Test the output.
+     *
+     * @param string $out
+     */
+    private function output_assert(string $out): void {
         $this->assertStringNotContainsString('Nothing to display', $out);
         $this->assertEquals(1, substr_count($out, 'paypal'));
         $this->assertStringContainsString('filters', $out);
         $this->assertStringContainsString('download', $out);
         $this->assertStringContainsString('currency', $out);
-        $this->assertStringContainsString('course', $out);
         $this->assertStringContainsString('amount', $out);
     }
 

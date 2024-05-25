@@ -18,7 +18,7 @@
  * Version information
  *
  * @package    report_payments
- * @copyright  Medical Access Uganda Limited
+ * @copyright  Medical Access Uganda Limited (e-learning.medical-access.org)
  * @author     Renaat Debleu <info@eWallah.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
