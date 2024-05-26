@@ -68,14 +68,11 @@ function report_payments_myprofile_navigation(\core_user\output\myprofile\tree $
     if (isguestuser($user) || !isloggedin()) {
         return false;
     }
-    $contextuser = \context_user::instance($user->id);
-    $contextcourse = \context_course::instance($course->id);
-    if (
-        has_capability('report/payments:userview', $contextuser) &&
-        has_capability('report/payments:view', $contextcourse)
-        ) {
+    $context = \context_user::instance($user->id);
+    if (has_capability('report/payments:userview', $context)) {
         $url = new moodle_url('/report/payments/index.php', ['userid' => $user->id]);
-        $node = new \core_user\output\myprofile\node('reports', 'payments', get_string('payments'), null, $url);
+        $txt = get_string('payments');
+        $node = new \core_user\output\myprofile\node('reports', 'payments', $txt, null, $url);
         $tree->add_node($node);
     }
     return true;
