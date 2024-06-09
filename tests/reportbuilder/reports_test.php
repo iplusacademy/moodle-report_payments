@@ -54,6 +54,7 @@ final class reports_test extends \advanced_testcase {
      */
     public function setUp(): void {
         global $DB;
+        parent::setUp();
         $this->setAdminUser();
         $this->resetAfterTest();
         $gen = $this->getDataGenerator();

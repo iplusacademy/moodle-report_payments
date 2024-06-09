@@ -52,6 +52,7 @@ final class report_test extends core_reportbuilder_testcase {
      */
     public function setUp(): void {
         global $DB;
+        parent::setUp();
         $this->setAdminUser();
         $this->resetAfterTest();
         $gen = $this->getDataGenerator();
