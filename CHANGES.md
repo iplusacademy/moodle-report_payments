@@ -1,3 +1,8 @@
+## Oct 15 2024
+
+* version update
+* MOODLE_405_STABLE
+
 ## Apr 21 2024
 
 * version update
