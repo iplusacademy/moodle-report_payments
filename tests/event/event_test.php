@@ -49,7 +49,7 @@ final class event_test extends \advanced_testcase {
      *
      * It's not possible to use the moodle API to simulate the viewing of log report, so here we
      * simply create the event and trigger it.
-     * @covers \report_payments\event\report_viewed
+     * #[CoversClass(report_payments\event\report_viewed)]
      */
     public function test_report_viewed(): void {
         $course = $this->getDataGenerator()->create_course();
@@ -110,7 +110,7 @@ final class event_test extends \advanced_testcase {
 
     /**
      * Tests the report navigation as an admin.
-     * @coversNothing
+     * #[CoversNothing]
      */
     public function test_report_payments_navigation(): void {
         global $CFG, $PAGE, $USER;
@@ -137,7 +137,7 @@ final class event_test extends \advanced_testcase {
 
     /**
      * Tests the report page type list.
-     * @coversNothing
+     * #[CoversNothing]
      */
     public function test_report_payments_page_type(): void {
         global $CFG, $PAGE;

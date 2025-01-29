@@ -94,8 +94,8 @@ final class reports_test extends \advanced_testcase {
     /**
      * Test the global report.
      *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_global
-     * @covers \report_payments\reportbuilder\local\entities\payment
+     * #[CoversClass(report_payments\reportbuilder\local\systemreports\payments_global)]
+     * #[CoversClass(report_payments\reportbuilder\local\entities\payment)]
      */
     public function test_global(): void {
         global $PAGE;
@@ -113,8 +113,8 @@ final class reports_test extends \advanced_testcase {
     /**
      * Test the course report.
      *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_course
-     * @covers \report_payments\reportbuilder\local\entities\payment
+     * #[CoversClass(report_payments\reportbuilder\local\systemreports\payments_course)]
+     * #[CoversClass(report_payments\reportbuilder\local\entities\payment)]
      */
     public function test_course(): void {
         global $PAGE;
@@ -128,8 +128,8 @@ final class reports_test extends \advanced_testcase {
     /**
      * Test the course report.
      *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_user
-     * @covers \report_payments\reportbuilder\local\entities\payment
+     * #[CoversClass(report_payments\reportbuilder\local\systemreports\payments_user)]
+     * #[CoversClass(report_payments\reportbuilder\local\entities\payment)]
      */
     public function test_user(): void {
         global $PAGE;
@@ -159,8 +159,8 @@ final class reports_test extends \advanced_testcase {
     /**
      * Test the datasource.
      *
-     * @covers \report_payments\reportbuilder\datasource\payments
-     * @covers \report_payments\reportbuilder\local\entities\payment
+     * #[CoversClass(report_payments\reportbuilder\datasource\payments)]
+     * #[CoversClass(report_payments\reportbuilder\local\entities\payment)]
      */
     public function test_datasource(): void {
         $gen = self::getDataGenerator()->get_plugin_generator('core_reportbuilder');
