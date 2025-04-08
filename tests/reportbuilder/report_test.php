@@ -82,8 +82,8 @@ final class report_test extends core_reportbuilder_testcase {
     /**
      * Test for report content
      *
-     * #[CoversClass(report_payments\reportbuilder\local\systemreports\payments_global)]
-     * #[CoversClass(report_payments\reportbuilder\local\entities\payment)]
+     * @covers \report_payments\reportbuilder\local\systemreports\payments_global
+     * @covers \report_payments\reportbuilder\local\entities\payment
      * @return void
      */
     public function test_content(): void {

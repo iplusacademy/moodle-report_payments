@@ -37,7 +37,7 @@ use core_privacy\tests\provider_testcase;
 final class privacy_test extends provider_testcase {
     /**
      * Test returning metadata.
-     * #[CoversClass(report_payments\privacy\provider)]
+     * @covers \report_payments\privacy\provider
      */
     public function test_get_metadata(): void {
         $str = 'report_payments';
