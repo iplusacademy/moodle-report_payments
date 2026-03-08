@@ -143,7 +143,7 @@ class payment extends base {
             ->set_type(column::TYPE_TIMESTAMP)
             ->add_field("{$tablealias}.timecreated")
             ->set_is_sortable(true)
-            ->add_attributes(['class' => 'text-right'])
+            ->add_attributes(['class' => 'text-end'])
             ->add_callback([format::class, 'userdate'], get_string('strftimedatetimeshortaccurate', 'core_langconfig'));
 
         return $columns;

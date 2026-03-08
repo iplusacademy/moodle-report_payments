@@ -30,6 +30,7 @@ use core_reportbuilder\system_report_factory;
 use enrol_fee\payment\service_provider;
 use report_payments\reportbuilder\datasource\payments;
 use report_payments\reportbuilder\local\systemreports\{payments_course, payments_global, payments_user};
+use PHPUnit\Framework\Attributes\CoversClass;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -45,8 +46,11 @@ require_once("{$CFG->dirroot}/reportbuilder/tests/helpers.php");
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(local\entities\payment::class)]
+#[CoversClass(local\systemreports\payments_global::class)]
+#[CoversClass(local\systemreports\payments_user::class)]
+#[CoversClass(local\systemreports\payments_course::class)]
 final class report_test extends core_reportbuilder_testcase {
-
     /**
      * Setup testcase.
      */
@@ -76,15 +80,10 @@ final class report_test extends core_reportbuilder_testcase {
         foreach ($records as $record) {
             $DB->set_field('payments', 'paymentarea', 'fee', ['id' => $record->id]);
         }
-
     }
 
     /**
      * Test for report content
-     *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_global
-     * @covers \report_payments\reportbuilder\local\entities\payment
-     * @return void
      */
     public function test_content(): void {
         /** @var \core_reportbuilder_generator $generator */
@@ -93,7 +92,7 @@ final class report_test extends core_reportbuilder_testcase {
         $generator->create_report([
             'name' => 'Payments global',
             'source' => payments_global::class,
-            'default' => 0,
+            'default' => false,
             'type' => \core_reportbuilder\local\report\base::TYPE_SYSTEM_REPORT,
             'contextid' => $context->id,
             'component' => 'report_payments',

@@ -45,8 +45,6 @@ class payments_global extends system_report {
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {
-        $context = $this->get_context();
-
         $main = new payment();
         $mainalias = $main->get_table_alias('payments');
         $this->set_main_table('payments', $mainalias);
@@ -63,35 +61,25 @@ class payments_global extends system_report {
         $enrolalias = $enrol->get_table_alias('enrol');
         $userenrolalias = $enrol->get_table_alias('user_enrolments');
         $enrol->add_joins($user->get_joins())
-            ->add_join("INNER JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid")
-            ->add_join("INNER JOIN {enrol} {$enrolalias} ON
-                              {$enrolalias}.id = {$userenrolalias}.enrolid AND
-                              {$enrolalias}.enrol = {$mainalias}.paymentarea");
+            ->add_join("LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$mainalias}.itemid")
+            ->add_join("LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.enrolid = {$enrolalias}.id
+                        AND {$userenrolalias}.userid = {$mainalias}.userid");
         $this->add_entity($enrol);
 
         $course = new course();
         $coursealias = $course->get_table_alias('course');
         $course->add_joins($enrol->get_joins())
-            ->add_join("INNER JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
+            ->add_join("LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
         $this->add_entity($course);
 
         $this->add_columns();
         $this->add_filters();
-        if ($context->contextlevel == CONTEXT_COURSECAT) {
-            $coursecat = \core_course_category::get($context->instanceid);
-            // TODO: get_in_or_equal CANNOT be used (mixed params).
-            $courseids = $coursecat->get_courses(['recursive' => true, 'idonly' => true]);
-            $str = implode(',', $courseids);
-            $this->add_base_condition_sql("$coursealias.id IN ($str)", []);
-        }
 
         $this->set_downloadable(true, get_string('payments'));
     }
 
     /**
      * Validates access to view this report
-     *
-     * @return bool
      */
     protected function can_view(): bool {
         return has_capability('report/payments:overview', $this->get_context());
@@ -99,8 +87,6 @@ class payments_global extends system_report {
 
     /**
      * Get the visible name of the report
-     *
-     * @return string
      */
     public static function get_name(): string {
         return get_string('payments');

@@ -58,17 +58,13 @@ class report_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        $str = "The user with id '$this->userid' viewed the ";
-        switch ($this->contextlevel) {
-            case CONTEXT_USER:
-                return $str . "payments report about the user with id '$this->relateduserid'.";
-            case CONTEXT_COURSE:
-                return $str . "payments report for the course with id '$this->courseid'.";
-            case CONTEXT_COURSECAT:
-                return $str . "payments report for the category with id '$this->contextinstanceid'.";
-            default:
-                return $str . "global payments report.";
-        }
+        $str = match ($this->contextlevel) {
+            CONTEXT_USER => "payments report about the user with id '$this->relateduserid'.",
+            CONTEXT_COURSE => "payments report for the course with id '$this->courseid'.",
+            CONTEXT_COURSECAT => "payments report for the category with id '$this->contextinstanceid'.",
+            default => "global payments report.",
+        };
+        return "The user with id '$this->userid' viewed the " . $str;
     }
 
     /**
@@ -78,16 +74,14 @@ class report_viewed extends \core\event\base {
      */
     public function get_url() {
         $params = [];
-        switch ($this->contextlevel) {
-            case CONTEXT_USER:
-                $params['userid'] = $this->relateduserid;
-                break;
-            case CONTEXT_COURSE:
-                $params['courseid'] = $this->courseid;
-                break;
-            case CONTEXT_COURSECAT:
-                $params['categoryid'] = $this->contextinstanceid;
-                break;
+        [$key, $value] = match ($this->contextlevel) {
+            CONTEXT_USER => ['userid', $this->relateduserid],
+            CONTEXT_COURSE => ['courseid', $this->courseid],
+            CONTEXT_COURSECAT => ['categoryid', $this->contextinstanceid],
+            default => [false, false],
+        };
+        if ($key) {
+            $params[$key] = $value;
         }
         return new \moodle_url('/report/payments/index.php', $params);
     }

@@ -24,6 +24,8 @@
  */
 namespace report_payments\event;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+
 /**
  * Class report_payments_events_testcase
  *
@@ -34,6 +36,7 @@ namespace report_payments\event;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(report_viewed::class)]
 final class event_test extends \advanced_testcase {
     /**
      * Setup testcase.
@@ -46,10 +49,6 @@ final class event_test extends \advanced_testcase {
 
     /**
      * Test the report viewed event.
-     *
-     * It's not possible to use the moodle API to simulate the viewing of log report, so here we
-     * simply create the event and trigger it.
-     * @covers \report_payments\event\report_viewed
      */
     public function test_report_viewed(): void {
         $course = $this->getDataGenerator()->create_course();
@@ -110,7 +109,6 @@ final class event_test extends \advanced_testcase {
 
     /**
      * Tests the report navigation as an admin.
-     * @coversNothing
      */
     public function test_report_payments_navigation(): void {
         global $CFG, $PAGE, $USER;
@@ -137,7 +135,6 @@ final class event_test extends \advanced_testcase {
 
     /**
      * Tests the report page type list.
-     * @coversNothing
      */
     public function test_report_payments_page_type(): void {
         global $CFG, $PAGE;

@@ -57,7 +57,8 @@ class payments_user extends system_report {
         $enrol = new enrolment();
         $enrolalias = $enrol->get_table_alias('enrol');
         $userenrolalias = $enrol->get_table_alias('user_enrolments');
-        $enrol->add_join("INNER JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid");
+        $enrol->add_join("LEFT JOIN {enrol} {$enrolalias} ON {$enrolalias}.id = {$mainalias}.itemid")
+            ->add_join("LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid");
         $this->add_entity($enrol);
         $this->add_base_condition_simple("{$userenrolalias}.userid", $context->instanceid);
 
@@ -65,10 +66,7 @@ class payments_user extends system_report {
         $coursealias = $course->get_table_alias('course');
         $course
             ->add_joins($enrol->get_joins())
-            ->add_join("INNER JOIN {enrol} {$enrolalias} ON
-                           {$enrolalias}.id = {$userenrolalias}.enrolid AND
-                           {$enrolalias}.enrol = {$mainalias}.paymentarea")
-            ->add_join("INNER JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
+            ->add_join("LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
         $this->add_entity($course);
 
         $this->add_columns();

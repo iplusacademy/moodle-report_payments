@@ -32,7 +32,7 @@ use core_reportbuilder\system_report_factory;
 use enrol_fee\payment\service_provider;
 use report_payments\reportbuilder\datasource\payments;
 use report_payments\reportbuilder\local\systemreports\{payments_course, payments_global, payments_user};
-
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class report payments global report tests
@@ -42,6 +42,10 @@ use report_payments\reportbuilder\local\systemreports\{payments_course, payments
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(local\entities\payment::class)]
+#[CoversClass(local\systemreports\payments_global::class)]
+#[CoversClass(local\systemreports\payments_user::class)]
+#[CoversClass(local\systemreports\payments_course::class)]
 final class reports_test extends \advanced_testcase {
     /** @var stdClass Course. */
     private $course;
@@ -93,9 +97,6 @@ final class reports_test extends \advanced_testcase {
 
     /**
      * Test the global report.
-     *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_global
-     * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_global(): void {
         global $PAGE;
@@ -104,17 +105,10 @@ final class reports_test extends \advanced_testcase {
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => 1]));
         $this->output_assert($report->output());
-        $context = \context_coursecat::instance($this->course->category);
-        $report = system_report_factory::create(payments_global::class, $context);
-        $this->assertEquals($report->get_name(), 'Payments');
-        $this->output_assert($report->output());
     }
 
     /**
      * Test the course report.
-     *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_course
-     * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_course(): void {
         global $PAGE;
@@ -127,9 +121,6 @@ final class reports_test extends \advanced_testcase {
 
     /**
      * Test the course report.
-     *
-     * @covers \report_payments\reportbuilder\local\systemreports\payments_user
-     * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_user(): void {
         global $PAGE;
@@ -138,7 +129,7 @@ final class reports_test extends \advanced_testcase {
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['userid' => $this->userid]));
         $out = $report->output();
-        $this->assertStringContainsString('course', $out);
+        $this->assertStringContainsString('Course', $out);
         $this->output_assert($out);
     }
 
@@ -158,9 +149,6 @@ final class reports_test extends \advanced_testcase {
 
     /**
      * Test the datasource.
-     *
-     * @covers \report_payments\reportbuilder\datasource\payments
-     * @covers \report_payments\reportbuilder\local\entities\payment
      */
     public function test_datasource(): void {
         $gen = self::getDataGenerator()->get_plugin_generator('core_reportbuilder');

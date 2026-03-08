@@ -1,4 +1,5 @@
-@report @report_payments
+@report @report_payments @javascript
+
 Feature: View payment report
 
   Background:
