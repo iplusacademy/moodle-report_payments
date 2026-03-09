@@ -42,10 +42,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * @author    Renaat Debleu <info@eWallah.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-#[CoversClass(local\systemreports\payments_global::class)]
-#[CoversClass(local\systemreports\payments_course::class)]
-#[CoversClass(local\systemreports\payments_user::class)]
 #[CoversClass(local\entities\payment::class)]
+#[CoversClass(local\systemreports\payments_global::class)]
+#[CoversClass(local\systemreports\payments_user::class)]
+#[CoversClass(local\systemreports\payments_course::class)]
 #[CoversClass(datasource\payments::class)]
 final class reports_test extends \advanced_testcase {
     /** @var stdClass Course. */
@@ -135,7 +135,7 @@ final class reports_test extends \advanced_testcase {
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['userid' => $this->userid]));
         $out = $report->output();
-        $this->assertStringContainsString('course', $out);
+        $this->assertStringContainsString('Course', $out);
         $this->output_assert($out);
     }
 

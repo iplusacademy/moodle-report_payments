@@ -61,6 +61,7 @@ class payments_course extends system_report {
         $userenrolalias = $enrol->get_table_alias('user_enrolments');
         $user = new user();
         $useralias = $user->get_table_alias('user');
+
         $this->add_entity($user->add_join(
             "LEFT JOIN {user} {$useralias} ON {$useralias}.id = {$mainalias}.userid
              LEFT JOIN {user_enrolments} {$userenrolalias} ON {$userenrolalias}.userid = {$mainalias}.userid

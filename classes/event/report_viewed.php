@@ -74,16 +74,14 @@ class report_viewed extends \core\event\base {
      */
     public function get_url() {
         $params = [];
-        switch ($this->contextlevel) {
-            case CONTEXT_USER:
-                $params['userid'] = $this->relateduserid;
-                break;
-            case CONTEXT_COURSE:
-                $params['courseid'] = $this->courseid;
-                break;
-            case CONTEXT_COURSECAT:
-                $params['categoryid'] = $this->contextinstanceid;
-                break;
+        [$key, $value] = match ($this->contextlevel) {
+            CONTEXT_USER => ['userid', $this->relateduserid],
+            CONTEXT_COURSE => ['courseid', $this->courseid],
+            CONTEXT_COURSECAT => ['categoryid', $this->contextinstanceid],
+            default => [false, false],
+        };
+        if ($key) {
+            $params[$key] = $value;
         }
 
         return new \moodle_url('/report/payments/index.php', $params);

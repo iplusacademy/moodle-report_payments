@@ -229,7 +229,7 @@ final class report_test extends core_reportbuilder_testcase {
         $generator->create_report([
             'name' => 'Payments global',
             'source' => payments_global::class,
-            'default' => 0,
+            'default' => false,
             'type' => \core_reportbuilder\local\report\base::TYPE_SYSTEM_REPORT,
             'contextid' => $context->id,
             'component' => 'report_payments',

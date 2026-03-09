@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'report_payments';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v5.2.3';
+$plugin->release = 'v5.2.4';
 $plugin->version = 2026020100;
 $plugin->requires = 2025041400;
 $plugin->supported = [500, 501];

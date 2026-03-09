@@ -1,4 +1,5 @@
 @report @report_payments
+
 Feature: View payment report
 
   Background:
