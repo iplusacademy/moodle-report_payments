@@ -169,6 +169,7 @@ final class report_test extends core_reportbuilder_testcase {
         ]);
         $this->assertEquals($context, $report->get_context());
         $this->assertEquals('Payments global', $report->get_formatted_name());
+        $this->assertEquals('payment', $report->get_entity('enrol'));
 
         $report = system_report_factory::create(payments_global::class, $context);
         $this->assertEquals($report->get_initial_sort_column()->get_name(), 'gateway');
