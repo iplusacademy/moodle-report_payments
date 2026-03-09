@@ -45,6 +45,7 @@ class payments_global extends system_report {
      * Initialise report, we need to set the main table, load our entities and set columns/filters
      */
     protected function initialise(): void {
+        $context = $this->get_context();
         $main = new payment();
         $mainalias = $main->get_table_alias('payments');
         $this->set_main_table('payments', $mainalias);
@@ -68,8 +69,9 @@ class payments_global extends system_report {
 
         $course = new course();
         $coursealias = $course->get_table_alias('course');
+        $str = ($context->contextlevel == CONTEXT_COURSECAT) ? "AND {$coursealias}.category = $context->instanceid" : '';
         $course->add_joins($enrol->get_joins())
-            ->add_join("LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid");
+            ->add_join("LEFT JOIN {course} {$coursealias} ON {$coursealias}.id = {$enrolalias}.courseid $str");
         $this->add_entity($course);
 
         $this->add_columns();

@@ -105,6 +105,10 @@ final class reports_test extends \advanced_testcase {
         $this->assertEquals($report->get_name(), 'Payments');
         $PAGE->set_url(new \moodle_url('/report/payments/index.php', ['courseid' => 1]));
         $this->output_assert($report->output());
+        $context = \context_coursecat::instance($this->course->category);
+        $report = system_report_factory::create(payments_global::class, $context);
+        $this->assertEquals($report->get_name(), 'Payments');
+        $this->output_assert($report->output());
     }
 
     /**

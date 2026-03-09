@@ -53,7 +53,6 @@ function report_payments_extend_navigation_category_settings($navigation, $conte
     }
 }
 
-
 /**
  * Add nodes to myprofile page.
  *
